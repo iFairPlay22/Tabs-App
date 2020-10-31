@@ -1,4 +1,37 @@
+@import "colors.scss";
 @import "~bootstrap/scss/bootstrap";
-body {
-    background-color: lightgray;
+body {}
+
+// NAVBAR
+.nav-link {
+    margin: 0 10px;
+    padding: 5px 13px !important;
+    color: $primary;
+    transition: background 0.7s, color 0.7s, border-radius 1s;
+}
+
+.nav-link:hover {
+    color: $primary !important;
+    background-color: $info;
+    border-radius: 10px;
+}
+
+.btn {
+    transition: background 0.7s, color 0.7s;
+}
+
+.form button {
+    margin-top: 20px;
+    padding: 10px 0;
+    width: 100%;
+}
+
+.btn:hover {
+    color: $primary !important;
+    background-color: $info;
+}
+
+// COLORS
+.light-color {
+    color: $light;
 }

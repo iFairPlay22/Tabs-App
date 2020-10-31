@@ -35,7 +35,7 @@ class BandController extends AbstractController
         $band = new Band();
         $band->addMember($this->getUser());
 
-        $form = $this->createForm(BandType::class, $band, ["submit_label" => "Créer"]);
+        $form = $this->createForm(BandType::class, $band, ["submit_label" => "Create"]);
 
         if (FormUtils::updateDBIfValid($request, $form, $this->getDoctrine()->getManager()))
             return $this->redirectToRoute('bands_all');

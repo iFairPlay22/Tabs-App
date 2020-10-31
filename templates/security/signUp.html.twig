@@ -1,11 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<style>
-</style>
 
-<div>
-    <h1> Sign Up </h1>
+<div class="container-fluid h-100">
+    <div class="h-100 row align-items-center justify-content-center">
+        <div class="col-lg-5 col-md-10 col-sm-10 col-12">
+            <div class="card">
+                <div class="card-body rounded border border-primary" >
+                    <h1 class="card-title mb-5 d-flex align-items-center">
+                        <ion-icon name="arrow-forward-circle-outline" class="mr-2"></ion-icon>
+                        <span> Let's create your account!</span>
+                    </h1>
+                    <div class="form">
+                        {{ form(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
 </div>
-{{ form(form) }}
+
 {% endblock %}

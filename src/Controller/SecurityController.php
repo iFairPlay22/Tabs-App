@@ -36,7 +36,7 @@ class SecurityController extends AbstractController
     {
         $user = new User();
 
-        $form = $this->createForm(UserType::class, $user, ["submit_label" => "Créer"]);
+        $form = $this->createForm(UserType::class, $user, ["submit_label" => "Create your account"]);
 
         if (FormUtils::updateDBIfValid($request, $form, $this->getDoctrine()->getManager())) {
 
