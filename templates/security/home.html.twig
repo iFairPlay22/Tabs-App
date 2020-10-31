@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+</style>
+
+<div>
+    <h1> Home </h1>
+    <a href="{{ path('app_sign_up') }}">
+        Créer un compte
+    </a>
+    <a href="{{ path('app_login') }}">
+        Se connecter
+    </a>
+</div>
+{% endblock %}

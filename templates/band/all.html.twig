@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+</style>
+
+<div>
+    <h1> My bands! ✅</h1>
+
+    {% if bands|length == 0 %}
+        <p> 
+            You don't have any band!
+        </p>
+    {% else %}
+        Your bands :
+        <ul>
+            {% for band in bands %}
+                <li>
+                    <a href="{{ path('bands_one', { band : band.id }) }}">
+                        {{ band.name|e }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+<a href="{{ path('bands_create') }}">
+    Create a band
+</a>
+<a href="{{ path('app_account') }}">
+    My account
+</a>
+<a href="{{ path('app_logout') }}">
+    Logout
+</a>
+{% endblock %}

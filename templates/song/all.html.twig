@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+</style>
+
+<div>
+    <h1> My band "{{ band.name }}" ✅</h1>
+
+    {% if band.songs|length == 0 %}
+        <p> 
+            You don't have any songs!
+        </p>
+    {% else %}
+        Your songs :
+        <ul>
+            {% for song in band.songs %}
+                <li>
+                    <a href="{{ path('songs_one', { song : song.id, band : song.band.id }) }}">
+                        {{ song.songName|e }}, {{ song.groupName|e }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    
+</div>
+<a href="{{ path('bands_edit', { band : band.id }) }}">
+    Edit the band
+</a>
+<a href="{{ path('songs_create', { band : band.id }) }}">
+    Create a song
+</a>
+
+    <h1> Members  ✅</h1>
+    
+    <ul>
+        {% for member in band.members %}
+            <li>
+                {{ member.email }} 
+                <a href="{{ path('members_remove', { band : band.id, member : member.id }) }}">
+                    Remove
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ path('members_add', { band : band.id }) }}">
+        Add
+    </a>
+{% endblock %}

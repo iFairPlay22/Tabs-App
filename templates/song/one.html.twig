@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+</style>
+
+<div>
+    <h1> My band "{{ song.band.name }}" ✅</h1>
+    <h2> My song "{{ song.songName }}" ✅</h2>
+
+    <p> Capo : {{ song.capo }} </p>
+
+    {% for riff in song.riffs %}
+        <div>
+            <h3> {{ riff.name }} </h3>
+            <p>
+                {% for chord in riff.chords %}/ {{ chord.chord }} /{% endfor %}
+            </p>
+        </div>
+    {% endfor %}
+</div>
+<a href="{{ path('songs_edit', { song : song.id, band : song.band.id }) }}">
+    Edit the song
+</a>
+{% endblock %}

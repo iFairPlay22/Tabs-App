@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+</style>
+{{ form(form) }}
+<a href="{{ path('bands_delete', { band : band.id }) }}">
+    Delete
+</a>
+{% endblock %}
