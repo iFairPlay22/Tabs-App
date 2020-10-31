@@ -66,10 +66,12 @@ class SecurityController extends AbstractController
         ]);
     }
 
+
     /**
-     * @Route("/my-account", name="app_account")
+     * @Route("/my-account", name="app_account_edit")
      * @IsGranted("ROLE_USER")
-     */
+     **/
+
     public function myAccount(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = $this->getUser();
@@ -88,12 +90,15 @@ class SecurityController extends AbstractController
 
             $objectManager->persist($user);
             $objectManager->flush();
+
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('security/myAccount.html.twig', [
             'form' => $form->createView()
         ]);
     }
+
 
     /**
      * @Route("/login", name="app_login")
