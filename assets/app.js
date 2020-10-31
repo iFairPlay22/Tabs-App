@@ -1,3 +1,3 @@
-var $ = require('jquery');
+var $ = require("jquery");
 
-import './styles/app.css';
+import "./styles/app.scss";
