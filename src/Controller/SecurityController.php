@@ -79,7 +79,7 @@ class SecurityController extends AbstractController
     {
         $user = $this->getUser();
         $form = $this->createForm(UserType::class, $user, [
-            "submit_label" => "Modifier",
+            "submit_label" => "Modify",
             "repeat_password" => true
         ]);
 

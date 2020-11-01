@@ -1,31 +1,40 @@
 <!DOCTYPE html>
 <html class="h-100">
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		{% block stylesheets %}
 
-            {# 'app' must match the first argument to addEntry() in webpack.config.js #}
-            {{ encore_entry_link_tags('app') }}
+			{# 'app' must match the first argument to addEntry() in webpack.config.js #}
+			{{ encore_entry_link_tags('app') }}
 
-            <!-- Renders a link tag (if your module requires any CSS)
-                    <link rel="stylesheet" href="/build/app.css"> -->
-            <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
-        {% endblock %}
-    </head>
-    <body class="h-100">
-        {{ include ("components/navbar.html.twig") }}
+			<!-- Renders a link tag (if your module requires any CSS)
+			                    <link rel="stylesheet" href="/build/app.css"> -->
+			<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+		{% endblock %}
+	</head>
+	<body class="h-100">
+		{{ include ("components/navbar.html.twig") }}
 
-        {% block body %}{% endblock %}
+		{% block body %}
+			<div class="container-fluid h-100">
+				<div class="h-100 row align-items-center justify-content-center">
+					{% block verticallyCenter %}{% endblock %}
+				</div>
+			</div>
+		{% endblock %}
 
-        {{ include ("components/footbar.html.twig") }}
-        
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+		{{ include ("components/footbar.html.twig") }}
 
-            <!-- Renders app.js & a webpack runtime.js file
-                <script src="/build/runtime.js"></script>
-                <script src="/build/app.js"></script> -->
-        {% endblock %}
-    </body>
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+
+			<!-- Renders app.js & a webpack runtime.js file
+			                <script src="/build/runtime.js"></script>
+			                <script src="/build/app.js"></script> -->
+		{% endblock %}
+	</body>
 </html>

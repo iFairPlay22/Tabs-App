@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<style>
-</style>
-{{ form(form) }}
-<a href="{{ path('songs_delete', { song : song.id, band : song.band.id }) }}">
-    Delete
-</a>
-{% endblock %}
+	<style></style>
+	{{ form(form) }}
+		<a href="{{ path('songs_delete', { song : song.id, band : song.band.id }) }}">
+			Delete
+		</a>
+	{% endblock %}

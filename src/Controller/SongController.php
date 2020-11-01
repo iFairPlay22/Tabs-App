@@ -61,7 +61,7 @@ class SongController extends AbstractController
         $this->getUser()->requireMemberOf($band);
         $song->requireSongOf($band);
 
-        $form = $this->createForm(SongType::class, $song, ["submit_label" => "Modifier"]);
+        $form = $this->createForm(SongType::class, $song, ["submit_label" => "Modify"]);
 
         if (FormUtils::updateDBIfValid($request, $form, $this->getDoctrine()->getManager()))
             return $this->redirectToRoute('bands_one', ['band' => $song->getBand()->getId()]);

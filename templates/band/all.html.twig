@@ -1,36 +1,57 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-<style>
-</style>
+{% block verticallyCenter %}
 
-<div>
-    <h1> My bands! ✅</h1>
 
-    {% if bands|length == 0 %}
-        <p> 
-            You don't have any band!
-        </p>
-    {% else %}
-        Your bands :
-        <ul>
-            {% for band in bands %}
-                <li>
-                    <a href="{{ path('bands_one', { band : band.id }) }}">
-                        {{ band.name|e }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-</div>
-<a href="{{ path('bands_create') }}">
-    Create a band
-</a>
-<a href="{{ path('app_account_edit') }}">
-    My account
-</a>
-<a href="{{ path('app_logout') }}">
-    Logout
-</a>
+	<div class="col-lg-4 col-md-8 col-sm-10 col-12">
+		<div class="card">
+			<div class="card-body rounded border border-primary">
+				<h1 class="card-title mb-5 d-flex align-items-center">
+					<ion-icon name="musical-notes-outline" class="mr-2"></ion-icon>
+					<span>My bands</span>
+				</h1>
+				<div class="mb-2 d-flex justify-content-end align-items-center">
+					<a class="mr-2" href="{{ path('bands_create') }}">
+						Create a band
+					</a>
+				</div>
+				<div>
+					{% if bands|length == 0 %}
+						<p>
+							You don't have any band!
+						</p>
+					{% else %}
+						<ul class="list-group">
+							{% for band in bands %}
+								<li onclick="location.href = '{{ path('bands_one', { band : band.id }) }}';" class="list-group-item d-flex justify-content-between align-items-center clickable-el">
+									<span class="d-flex align-items-center">
+										<ion-icon name="musical-note-outline" class="mr-3"></ion-icon>
+										<span>
+											{{ band.name|e }}
+										</span>
+									</span>
+									<div class="left-button-container">
+										<span class="px-3 py-2 badge badge-primary badge-pill">
+											{{ band.members | length }}
+
+											{% if 1 < band.members|length %}members
+												{% else %}member
+											{% endif %}
+										</span>
+										<span class="px-3 py-2 badge badge-info badge-pill">{{ band.songs | length }}
+											{% if 1 < band.songs|length %}songs
+												{% else %}song
+											{% endif %}
+										</span>
+									</div>
+								</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+
+			</div>
+		</div>
+	</div>
+
 {% endblock %}

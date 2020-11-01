@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Band;
 use App\Form\BandType;
 use App\Form\FormUtils;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,7 +54,7 @@ class BandController extends AbstractController
     {
         $this->getUser()->requireMemberOf($band);
 
-        $form = $this->createForm(BandType::class, $band, ["submit_label" => "Modifier"]);
+        $form = $this->createForm(BandType::class, $band, ["submit_label" => "Modify"]);
 
         if (FormUtils::updateDBIfValid($request, $form, $this->getDoctrine()->getManager()))
             return $this->redirectToRoute('bands_all');

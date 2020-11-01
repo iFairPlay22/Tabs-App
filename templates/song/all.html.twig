@@ -1,51 +1,75 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-<style>
-</style>
+{% block verticallyCenter %}
 
-<div>
-    <h1> My band "{{ band.name }}" ✅</h1>
 
-    {% if band.songs|length == 0 %}
-        <p> 
-            You don't have any songs!
-        </p>
-    {% else %}
-        Your songs :
-        <ul>
-            {% for song in band.songs %}
-                <li>
-                    <a href="{{ path('songs_one', { song : song.id, band : song.band.id }) }}">
-                        {{ song.songName|e }}, {{ song.groupName|e }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+	<div class="col-lg-4 col-md-8 col-sm-10 col-12">
+		<div class="card">
+			<div class="card-body rounded border border-primary">
+				<h1 class="card-title mb-5 d-flex align-items-center">
+					<ion-icon name="musical-notes-outline" class="mr-2"></ion-icon>
+					<span>My songs :
+						{{ band.name }}</span>
+				</h1>
+				<div class="mb-2 d-flex justify-content-between align-items-center">
+					<a class="ml-2" href="{{ path('bands_edit', { band : band.id }) }}">
+						Edit the band
+					</a>
+					<a class="mr-2" href="{{ path('songs_create', { band : band.id }) }}">
+						Create a song
+					</a>
+				</div>
+				<div>
+					{% if band.songs|length == 0 %}
+						<p>
+							You don't have any songs!
+						</p>
+					{% else %}
+						<ul class="list-group">
+							{% for song in band.songs %}
+								<li onclick="location.href = '{{ path('songs_one', { song : song.id, band : song.band.id }) }}';" class="list-group-item d-flex justify-content-between align-items-center clickable-el">
 
-    
-</div>
-<a href="{{ path('bands_edit', { band : band.id }) }}">
-    Edit the band
-</a>
-<a href="{{ path('songs_create', { band : band.id }) }}">
-    Create a song
-</a>
+									<span class="d-flex align-items-center">
+										<ion-icon name="musical-note-outline" class="mr-3"></ion-icon>
+										<span>
+											{{ song.songName|e }},
+											{{ song.groupName|e }}
+										</span>
+									</span>
+									<div>
+										<span class="px-2 py-2 badge badge-primary badge-pill">
+											{{ song.riffs | length }}
 
-    <h1> Members  ✅</h1>
-    
-    <ul>
-        {% for member in band.members %}
-            <li>
-                {{ member.email }} 
-                <a href="{{ path('members_remove', { band : band.id, member : member.id }) }}">
-                    Remove
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
-    <a href="{{ path('members_add', { band : band.id }) }}">
-        Add
-    </a>
+											{% if 1 < song.riffs|length %}riffs
+												{% else %}riff
+											{% endif %}
+										</span>
+									</div>
+								</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	{# <h1> Members  ✅</h1>
+			    
+			    <ul>
+			        {% for member in band.members %}
+			            <li>
+			                {{ member.email }} 
+			                <a href="{{ path('members_remove', { band : band.id, member : member.id }) }}">
+			                    Remove
+			                </a>
+			            </li>
+			        {% endfor %}
+			    </ul>
+			    <a href="{{ path('members_add', { band : band.id }) }}">
+			        Add
+			    </a> #}
+
 {% endblock %}
