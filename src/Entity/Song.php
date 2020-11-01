@@ -45,13 +45,12 @@ class Song
     private $group_name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Riff::class, mappedBy="song", orphanRemoval=true)
+     * @ORM\Column(type="string", length=10000)
      */
-    private $riffs;
+    private $content;
 
     public function __construct()
     {
-        $this->riffs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -107,37 +106,6 @@ class Song
         return $this;
     }
 
-    /**
-     * @return Collection|Riff[]
-     */
-    public function getRiffs(): Collection
-    {
-        return $this->riffs;
-    }
-
-    public function addRiff(Riff $riff): self
-    {
-        if (!$this->riffs->contains($riff)) {
-            $this->riffs[] = $riff;
-            $riff->setSong($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRiff(Riff $riff): self
-    {
-        if ($this->riffs->contains($riff)) {
-            $this->riffs->removeElement($riff);
-            // set the owning side to null (unless already changed)
-            if ($riff->getSong() === $this) {
-                $riff->setSong(null);
-            }
-        }
-
-        return $this;
-    }
-
     // For BandType Validation
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -145,6 +113,7 @@ class Song
         $metadata->addPropertyConstraint('capo', new NotBlank());
         $metadata->addPropertyConstraint('song_name', new NotBlank());
         $metadata->addPropertyConstraint('group_name', new NotBlank());
+        $metadata->addPropertyConstraint('content', new NotBlank());
 
         $metadata->addPropertyConstraint('capo', new Length([
             'min' => 1,
@@ -169,11 +138,31 @@ class Song
             'maxMessage' => 'Group name name cannot be longer than {{ limit }} characters',
             'allowEmptyString' => false,
         ]));
+
+        $metadata->addPropertyConstraint('content', new Length([
+            'min' => 0,
+            'max' => 10000,
+            'minMessage' => 'Content must be at least {{ limit }} characters long',
+            'maxMessage' => 'Content name name cannot be longer than {{ limit }} characters',
+            'allowEmptyString' => true,
+        ]));
     }
 
     public function requireSongOf(Band $band)
     {
         if ($this->band != $band)
             throw new AccessDeniedException("Band does not contains this song!");
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
     }
 }

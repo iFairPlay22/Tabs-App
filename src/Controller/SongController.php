@@ -64,7 +64,10 @@ class SongController extends AbstractController
         $form = $this->createForm(SongType::class, $song, ["submit_label" => "Modify"]);
 
         if (FormUtils::updateDBIfValid($request, $form, $this->getDoctrine()->getManager()))
-            return $this->redirectToRoute('bands_one', ['band' => $song->getBand()->getId()]);
+            return $this->redirectToRoute('songs_one', [
+                'song' => $song->getId(),
+                'band' => $song->getBand()->getId()
+            ]);
 
         return $this->render('song/edit.html.twig', [
             'song' => $song,

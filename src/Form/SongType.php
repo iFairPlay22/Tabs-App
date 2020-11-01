@@ -6,6 +6,7 @@ use App\Entity\Song;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,13 +16,20 @@ class SongType extends AbstractType
     {
         $builder
             ->add('capo', TextType::class, [
-                'required' => true
+                'required' => true,
+                'label' => 'Tone / Capo'
             ])
             ->add('song_name', TextType::class, [
                 'required' => true
             ])
             ->add('group_name', TextType::class, [
                 'required' => true
+            ])
+            ->add('content', TextareaType::class, [
+                'required' => true,
+                'attr' => [
+                    'rows' => 5
+                ]
             ])
             ->add('save', SubmitType::class, [
                 'label' => $options['submit_label']

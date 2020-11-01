@@ -3,10 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\Band;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Entity\User;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class BandFixtures extends AppFixtures
+class BandFixtures extends AppFixtures implements DependentFixtureInterface
 {
     public static $total = 5;
 
@@ -18,5 +19,19 @@ class BandFixtures extends AppFixtures
     protected function loadData(&$entity)
     {
         $entity->setName(self::$faker->realText(30));
+
+        $user = $this->getCustumReference(
+            User::class,
+            self::$faker->numberBetween(0, UserFixtures::$total - 1)
+        );
+
+        $user->addBand($entity);
+    }
+
+    public function getDependencies()
+    {
+        return [
+            UserFixtures::class
+        ];
     }
 }

@@ -1,11 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-	<style></style>
+{% block verticallyCenter %}
+	<div class="col-lg-5 col-md-10 col-sm-10 col-12">
+		<div class="card">
+			<div class="card-body rounded border border-primary">
+				<h1 class="card-title mb-5 d-flex align-items-center">
+					<ion-icon name="people-outline" class="mr-2"></ion-icon>
+					<span>
+						My account
+						{{ user.viewCode }}
+					</span>
+				</h1>
+				<div class="form">
+					{{ form(form) }}
+					</div>
+				</div>
+			</div>
+		</div>
 
-	<div>
-		<h1>
-			My account
-		</h1>
-	</div>
-	{{ form(form) }}{% endblock %}
+	{% endblock %}

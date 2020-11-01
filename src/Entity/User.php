@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Util\ViewCode;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -186,5 +187,15 @@ class User implements UserInterface
             'maxMessage' => 'Password cannot be longer than {{ limit }} characters',
             'allowEmptyString' => false,
         ]));
+    }
+
+    public function getViewCode()
+    {
+        // $this->getDoctrine()
+        //         ->getRepository(User::class)
+        //         ->find(
+        //             ViewCode::idFromCode($code)
+        //         );
+        return ViewCode::codeFromId(ViewCode::idFromCode(ViewCode::codeFromId($this->getId())));
     }
 }

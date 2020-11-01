@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Band;
 use App\Entity\Song;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
@@ -22,6 +21,7 @@ class SongFixtures extends AppFixtures implements DependentFixtureInterface
         $entity->setCapo(self::$faker->randomElement(["C", "D", "E"]));
         $entity->setSongName(self::$faker->realText(30));
         $entity->setGroupName(self::$faker->realText(30));
+        $entity->setContent(self::$faker->realText(1000));
 
         $band = $this->getCustumReference(
             Band::class,

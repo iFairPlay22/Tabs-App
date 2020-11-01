@@ -15,23 +15,12 @@
 						Edit the song
 					</a>
 				</div>
-				<h2 class="card-subtitle">Capo :
-					{{ song.capo }}</h2>
-				<div>
-					{% for riff in song.riffs %}
-						<div>
-							<h3>
-								{{ riff.name }}
-							</h3>
-							<p>
-								{% for chord in riff.chords %}/
-									{{ chord.chord }}
-									/
-								{% endfor %}
-							</p>
-						</div>
-					{% endfor %}
-
+				<div class="card-body">
+					<h2 class="card-subtitle mb-3">Capo :
+						{{ song.capo }}</h2>
+					<p class="card-text">
+						{{ song.content | nl2br }}
+					</p>
 				</div>
 			</div>
 		</div>

@@ -4,16 +4,13 @@ namespace App\DataFixtures;
 
 use App\Entity\Band;
 use App\Entity\User;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserFixtures extends AppFixtures implements DependentFixtureInterface
+class UserFixtures extends AppFixtures
 {
     public static $total = 2;
-    public static $maxBandsByUser = 7;
 
     private $passwordEncoder;
 
@@ -34,18 +31,5 @@ class UserFixtures extends AppFixtures implements DependentFixtureInterface
             $entity,
             self::$faker->password
         ));
-
-        for ($i = 0; $i < self::$faker->numberBetween(1, BandFixtures::$total - 1); $i++) {
-
-            $band = $this->getCustumReference(Band::class, $i);
-            $entity->addBand($band);
-        }
-    }
-
-    public function getDependencies()
-    {
-        return [
-            BandFixtures::class
-        ];
     }
 }
