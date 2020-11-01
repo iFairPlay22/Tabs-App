@@ -36,7 +36,10 @@ class SecurityController extends AbstractController
     {
         $user = new User();
 
-        $form = $this->createForm(UserType::class, $user, ["submit_label" => "Create your account"]);
+        $form = $this->createForm(UserType::class, $user, [
+            "submit_label" => "Create your account",
+            "repeat_password" => true
+        ]);
 
         if (FormUtils::updateDBIfValid($request, $form, $this->getDoctrine()->getManager())) {
 
@@ -75,7 +78,10 @@ class SecurityController extends AbstractController
     public function myAccount(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(UserType::class, $user, ["submit_label" => "Modifier"]);
+        $form = $this->createForm(UserType::class, $user, [
+            "submit_label" => "Modifier",
+            "repeat_password" => true
+        ]);
 
         $objectManager = $this->getDoctrine()->getManager();
 
@@ -108,9 +114,17 @@ class SecurityController extends AbstractController
         if ($this->getUser())
             return $this->redirectToRoute('bands_all');
 
+        $user = new User();
+        $user->setEmail($authenticationUtils->getLastUsername());
+
+        $form = $this->createForm(UserType::class, $user, [
+            "submit_label" => "Sign in",
+            "repeat_password" => false
+        ]);
+
         return $this->render('security/login.html.twig', [
-            'last_username' => $authenticationUtils->getLastUsername(),
-            'error' => $authenticationUtils->getLastAuthenticationError()
+            'error' => $authenticationUtils->getLastAuthenticationError(),
+            'form' => $form->createView()
         ]);
     }
 

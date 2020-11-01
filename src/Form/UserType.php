@@ -18,13 +18,25 @@ class UserType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'required' => true
-            ])
-            ->add('password', RepeatedType::class, [
-                'required' => true,
-                'type' => PasswordType::class,
-                'first_options'  => array('label' => 'Password'),
-                'second_options' => array('label' => 'Repeat Password'),
-            ])
+            ]);
+
+        if ($options['repeat_password']) {
+            $builder
+                ->add('password', RepeatedType::class, [
+                    'required' => true,
+                    'type' => PasswordType::class,
+                    'first_options'  => array('label' => 'Password'),
+                    'second_options' => array('label' => 'Repeat Password'),
+                ]);
+        } else {
+            $builder
+                ->add('password', PasswordType::class, [
+                    'required' => true,
+                    'label' => 'Password'
+                ]);
+        }
+
+        $builder
             ->add('save', SubmitType::class, [
                 'label' => $options['submit_label']
             ]);;
@@ -34,9 +46,11 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'submit_label' => "Undefined label title"
+            'submit_label' => "Undefined label title",
+            'repeat_password' => true
         ]);
 
         $resolver->setAllowedTypes('submit_label', 'string');
+        $resolver->setAllowedTypes('repeat_password', 'bool');
     }
 }
