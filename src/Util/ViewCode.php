@@ -37,11 +37,14 @@ class ViewCode
 
     public static function idFromCode($code)
     {
-        $codes = str_split($code);
+        if (strlen($code) != self::$codeLength + 1)
+            return -1;
+
+        $codes = array_slice(str_split($code), 1);
 
         $id = "";
-        for ($i = 1; $i <= self::$codeLength; $i++)
-            $id .= array_search($codes[$i], self::$list);
+        foreach ($codes as $code)
+            $id .= array_search($code, self::$list);
 
         return intval($id);
     }

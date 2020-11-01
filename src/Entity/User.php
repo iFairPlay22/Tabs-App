@@ -191,11 +191,6 @@ class User implements UserInterface
 
     public function getViewCode()
     {
-        // $this->getDoctrine()
-        //         ->getRepository(User::class)
-        //         ->find(
-        //             ViewCode::idFromCode($code)
-        //         );
         return ViewCode::codeFromId(ViewCode::idFromCode(ViewCode::codeFromId($this->getId())));
     }
 }

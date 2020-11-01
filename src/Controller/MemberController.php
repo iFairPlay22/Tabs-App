@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Band;
 use App\Entity\User;
+use App\Util\ViewCode;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @IsGranted("ROLE_USER")
@@ -15,14 +17,68 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class MemberController extends AbstractController
 {
     /**
+     * @Route("/manage", name="manage")
+     */
+    public function manage(Band $band)
+    {
+        $user = $this->getUser();
+        $user->requireMemberOf($band);
+
+        return $this->render('member/manage.html.twig', [
+            'band' => $band,
+            'user' => $user
+        ]);
+    }
+
+    /**
      * @Route("/add", name="add")
      */
-    public function add(Band $band)
+    public function add(Request $request, Band $band)
     {
-        $this->getUser()->requireMemberOf($band);
+        $user = $this->getUser();
+        $user->requireMemberOf($band);
 
-        return $this->render('member/index.html.twig', [
-            'controller_name' => 'MemberController',
+        $userCode = $request->get("user_code");
+
+        if ($userCode != NULL) {
+
+            $member = $this->getDoctrine()
+                ->getRepository(User::class)
+                ->find(
+                    ViewCode::idFromCode($userCode)
+                );
+
+            if ($member == NULL) {
+                $this->addFlash('user_code_error', sprintf(
+                    "Code %s don't match with any user!",
+                    $userCode
+                ));
+            } else if ($user->getId() == $member->getId()) {
+                $this->addFlash(
+                    'user_code_error',
+                    "You are already in this band!"
+                );
+            } else if ($member->getBands()->contains($band)) {
+                $this->addFlash('user_code_error', sprintf(
+                    "User %s is already in this band!",
+                    $userCode
+                ));
+            } else {
+                $band->addMember($member);
+
+                $objectManager = $this->getDoctrine()->getManager();
+                $objectManager->persist($band);
+                $objectManager->flush();
+
+                $this->addFlash('user_code_ok', sprintf(
+                    'User %s is now a member of your band!',
+                    $userCode
+                ));
+            }
+        }
+
+        return $this->render('member/add.html.twig', [
+            'band' => $band,
         ]);
     }
 
@@ -35,20 +91,20 @@ class MemberController extends AbstractController
         $member->requireMemberOf($band);
 
         $objectManager = $this->getDoctrine()->getManager();
+        $members = $band->getMembers()->count();
 
-        if ($band->getMembers()->count() == 1) {
+        $band->removeMember($member);
+        $objectManager->persist($band);
+
+        if ($members == 1)
             $objectManager->remove($band);
-        } else {
-            $band->removeMember($member);
-            $objectManager->persist($band);
-        }
 
         $objectManager->flush();
 
         if ($this->getUser() == $member)
             return $this->redirectToRoute("bands_all");
 
-        return $this->redirectToRoute("bands_one", [
+        return $this->redirectToRoute("members_manage", [
             "band" => $band->getId()
         ]);
     }
