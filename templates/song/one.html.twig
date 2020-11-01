@@ -1,34 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-	<style></style>
+{% block verticallyCenter %}
 
-	<div>
-		<h1>
-			My band "{{ song.band.name }}" ✅</h1>
-		<h2>
-			My song "{{ song.songName }}" ✅</h2>
-
-		<p>
-			Capo :
-			{{ song.capo }}
-		</p>
-
-		{% for riff in song.riffs %}
-			<div>
-				<h3>
-					{{ riff.name }}
-				</h3>
-				<p>
-					{% for chord in riff.chords %}/
-						{{ chord.chord }}
-						/
+	<div class="col-lg-5 col-md-10 col-sm-10 col-12">
+		<div class="card">
+			<div class="card-body rounded border border-primary">
+				<h1 class="card-title mb-5 d-flex align-items-center">
+					<ion-icon name="musical-notes-outline" class="mr-2"></ion-icon>
+					<span>My song :
+						{{ song.songName }}</span>
+				</h1>
+				<div class="mb-2 d-flex justify-content-end align-items-center">
+					<a href="{{ path('songs_edit', { song : song.id, band : song.band.id }) }}">
+						Edit the song
+					</a>
+				</div>
+				<h2 class="card-subtitle">Capo :
+					{{ song.capo }}</h2>
+				<div>
+					{% for riff in song.riffs %}
+						<div>
+							<h3>
+								{{ riff.name }}
+							</h3>
+							<p>
+								{% for chord in riff.chords %}/
+									{{ chord.chord }}
+									/
+								{% endfor %}
+							</p>
+						</div>
 					{% endfor %}
-				</p>
+
+				</div>
 			</div>
-		{% endfor %}
-	</div>
-	<a href="{{ path('songs_edit', { song : song.id, band : song.band.id }) }}">
-		Edit the song
-	</a>
-{% endblock %}
+		</div>
+
+	{% endblock %}
