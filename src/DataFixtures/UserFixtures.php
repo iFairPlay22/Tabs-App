@@ -29,7 +29,8 @@ class UserFixtures extends AppFixtures
         $entity->setEmail(self::$faker->freeEmail);
         $entity->setPassword($this->passwordEncoder->encodePassword(
             $entity,
-            self::$faker->password
+            "12345"
+            // self::$faker->password
         ));
     }
 }

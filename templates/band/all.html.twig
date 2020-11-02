@@ -16,37 +16,58 @@
 					</a>
 				</div>
 				<div>
-					{% if bands|length == 0 %}
+					{% if user.bands|length == 0 %}
 						<p>
 							You don't have any band!
 						</p>
 					{% else %}
-						<ul class="list-group">
-							{% for band in bands %}
-								<li onclick="location.href = '{{ path('bands_one', { band : band.id }) }}';" class="list-group-item d-flex justify-content-between align-items-center clickable-el">
-									<span class="d-flex align-items-center">
-										<ion-icon name="musical-note-outline" class="mr-3"></ion-icon>
-										<span>
-											{{ band.name|e }}
-										</span>
-									</span>
-									<div class="left-button-container">
-										<span class="px-3 py-2 badge badge-primary badge-pill">
-											{{ band.members | length }}
+						<div class="form">
+							<form name="member" method="post">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
 
-											{% if 1 < band.members|length %}members
-												{% else %}member
-											{% endif %}
-										</span>
-										<span class="px-3 py-2 badge badge-info badge-pill">{{ band.songs | length }}
-											{% if 1 < band.songs|length %}songs
-												{% else %}song
-											{% endif %}
+										<span class="input-group-text" id="inputGroup-sizing-default">
+											<ion-icon name="search-outline"></ion-icon>
 										</span>
 									</div>
-								</li>
-							{% endfor %}
-						</ul>
+									<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="band_search" placeholder="Search" value="{{ search }}">
+								</div>
+							</form>
+						</div>
+						{% if bands|length == 0 %}
+							<p>
+								No bands matches with your request!
+							</p>
+						{% else %}
+
+
+							<ul class="list-group">
+								{% for band in bands %}
+									<li onclick="location.href = '{{ path('bands_one', { band : band.id }) }}';" class="list-group-item d-flex justify-content-between align-items-center clickable-el">
+										<span class="d-flex align-items-center">
+											<ion-icon name="musical-note-outline" class="mr-3"></ion-icon>
+											<span>
+												{{ band.name|e }}
+											</span>
+										</span>
+										<div class="left-button-container">
+											<span class="px-3 py-2 badge badge-primary badge-pill">
+												{{ band.members | length }}
+
+												{% if 1 < band.members|length %}members
+													{% else %}member
+												{% endif %}
+											</span>
+											<span class="px-3 py-2 badge badge-info badge-pill">{{ band.songs | length }}
+												{% if 1 < band.songs|length %}songs
+													{% else %}song
+												{% endif %}
+											</span>
+										</div>
+									</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
 					{% endif %}
 				</div>
 

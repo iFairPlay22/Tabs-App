@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Song;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 /**
  * @method Song|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,28 @@ class SongRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Song::class);
+    }
+
+    // /**
+    //  * @return Song[] Returns an array of Song objects
+    //  */
+    public function findWhereLike($band, $value)
+    {
+        $words = explode(' ', $value);
+
+        $query = $this->createQueryBuilder('s')
+            ->where('s.band = :band')
+            ->setParameter('band', $band);
+
+        for ($i = 0; $i < count($words); $i++) {
+            $val = 'val' . $i;
+            $query->andWhere(
+                's.song_name LIKE :' . $val . ' OR s.group_name LIKE :' . $val . ' OR s.capo LIKE :' . $val
+            )->setParameter($val, '%' . $words[$i] . '%');
+        }
+
+        return $query->getQuery()
+            ->getResult();
     }
 
     // /**

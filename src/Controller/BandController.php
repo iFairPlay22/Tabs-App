@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Band;
+use App\Entity\Song;
 use App\Form\BandType;
 use App\Form\FormUtils;
 use Exception;
@@ -20,11 +21,23 @@ class BandController extends AbstractController
     /**
      * @Route("", name="all")
      */
-    public function all()
+    public function all(Request $request)
     {
+        $user = $this->getUser();
+        $search = $request->get("band_search");
+
+        if ($search != NULL && $search != "") {
+            $bands = $this->getDoctrine()
+                ->getRepository(Band::class)
+                ->findByName($user, $search);
+        } else {
+            $bands = $user->getBands();
+        }
+
         return $this->render('band/all.html.twig', [
-            'bands' => $this->getUser()
-                ->getBands()
+            'user' => $user,
+            'bands' => $bands,
+            'search' => $search
         ]);
     }
 
@@ -84,12 +97,24 @@ class BandController extends AbstractController
     /**
      * @Route("/{band}", name="one")
      */
-    public function one(Band $band)
+    public function one(Request $request, Band $band)
     {
         $this->getUser()->requireMemberOf($band);
 
+        $search = $request->get("song_search");
+
+        if ($search != NULL && $search != "") {
+            $songs = $this->getDoctrine()
+                ->getRepository(Song::class)
+                ->findWhereLike($band, $search);
+        } else {
+            $songs = $band->getSongs();
+        }
+
         return $this->render('song/all.html.twig', [
-            'band' => $band
+            'band' => $band,
+            'songs' => $songs,
+            'search' => $search
         ]);
     }
 }

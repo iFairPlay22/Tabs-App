@@ -30,20 +30,39 @@
 							You don't have any songs!
 						</p>
 					{% else %}
-						<ul class="list-group">
-							{% for song in band.songs %}
-								<li onclick="location.href = '{{ path('songs_one', { song : song.id, band : song.band.id }) }}';" class="list-group-item d-flex justify-content-between align-items-center clickable-el">
+						<div class="form">
+							<form name="member" method="post">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
 
-									<span class="d-flex align-items-center">
-										<ion-icon name="musical-note-outline" class="mr-3"></ion-icon>
-										<span>
-											{{ song.songName|e }},
-											{{ song.groupName|e }}
+										<span class="input-group-text" id="inputGroup-sizing-default">
+											<ion-icon name="search-outline"></ion-icon>
 										</span>
-									</span>
-								</li>
-							{% endfor %}
-						</ul>
+									</div>
+									<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="song_search" placeholder="Search" value="{{ search }}">
+								</div>
+							</form>
+						</div>
+						{% if songs|length == 0 %}
+							<p>
+								No sound matches with your request!
+							</p>
+						{% else %}
+							<ul class="list-group">
+								{% for song in songs %}
+									<li onclick="location.href = '{{ path('songs_one', { song : song.id, band : song.band.id }) }}';" class="list-group-item d-flex justify-content-between align-items-center clickable-el">
+
+										<span class="d-flex align-items-center">
+											<ion-icon name="musical-note-outline" class="mr-3"></ion-icon>
+											<span>
+												{{ song.songName|e }},
+												{{ song.groupName|e }}
+											</span>
+										</span>
+									</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
 					{% endif %}
 				</div>
 
@@ -53,19 +72,18 @@
 
 
 	{# <h1> Members  ✅</h1>
-														    
-														    <ul>
-														        {% for member in band.members %}
-														            <li>
-														                {{ member.email }} 
-														                <a href="{{ path('members_remove', { band : band.id, member : member.id }) }}">
-														                    Remove
-														                </a>
-														            </li>
-														        {% endfor %}
-														    </ul>
-														    <a href="{{ path('members_add', { band : band.id }) }}">
-														        Add
-														    </a> #}
-
+																																				    
+																																				    <ul>
+																																				        {% for member in band.members %}
+																																				            <li>
+																																				                {{ member.email }} 
+																																				                <a href="{{ path('members_remove', { band : band.id, member : member.id }) }}">
+																																				                    Remove
+																																				                </a>
+																																				            </li>
+																																				        {% endfor %}
+																																				    </ul>
+																																				    <a href="{{ path('members_add', { band : band.id }) }}">
+																																				        Add
+																																				    </a> #}
 {% endblock %}

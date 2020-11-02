@@ -75,24 +75,6 @@ class SongController extends AbstractController
         ]);
     }
 
-    private function updateDBIfValid(Request $request, FormInterface $form)
-    {
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $entityManager = $this->getDoctrine()
-                ->getManager();
-
-            $entityManager->persist($form->getData());
-            $entityManager->flush();
-
-            return true;
-        }
-
-        return false;
-    }
-
     /**
      * @Route("/{song}/delete", name="delete", requirements={"song"="\d+"})
      */

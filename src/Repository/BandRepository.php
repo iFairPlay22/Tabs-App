@@ -20,6 +20,22 @@ class BandRepository extends ServiceEntityRepository
     }
 
     // /**
+    //  * @return Song[] Returns an array of Song objects
+    //  */
+    public function findByName($member, $value)
+    {
+        return $this->createQueryBuilder('b')
+            ->join('b.members', 'm')
+            ->where('m.id = :member')
+            ->setParameter('member', $member)
+
+            ->andWhere('b.name LIKE :val')
+            ->setParameter('val', '%' . $value . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    // /**
     //  * @return Band[] Returns an array of Band objects
     //  */
     /*
