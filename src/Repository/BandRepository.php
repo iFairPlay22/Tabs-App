@@ -22,17 +22,47 @@ class BandRepository extends ServiceEntityRepository
     // /**
     //  * @return Song[] Returns an array of Song objects
     //  */
-    public function findByName($member, $value)
+    public function findByName($member, $value, $index, $limit)
     {
-        return $this->createQueryBuilder('b')
+        $words = explode(' ', $value);
+
+        $query =  $this->createQueryBuilder('b')
             ->join('b.members', 'm')
             ->where('m.id = :member')
-            ->setParameter('member', $member)
+            ->setParameter('member', $member);
 
-            ->andWhere('b.name LIKE :val')
-            ->setParameter('val', '%' . $value . '%')
+        for ($i = 0; $i < count($words); $i++) {
+            $val = 'val' . $i;
+            $query->andWhere('b.name LIKE :' . $val)->setParameter($val, '%' . $words[$i] . '%');
+        }
+
+        return $query->setFirstResult($index)
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+    }
+
+    // /**
+    //  * @return Song[] Returns an array of Song objects
+    //  */
+    public function getNumberResults($member, $value)
+    {
+        $words = explode(' ', $value);
+
+        $query =  $this->createQueryBuilder('b')
+            ->SELECT('COUNT(b.id) AS nb_result')
+            ->join('b.members', 'm')
+            ->where('m.id = :member')
+            ->setParameter('member', $member);
+
+        for ($i = 0; $i < count($words); $i++) {
+            $val = 'val' . $i;
+            $query->andWhere('b.name LIKE :' . $val)->setParameter($val, '%' . $words[$i] . '%');
+        }
+
+        return $query
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     // /**

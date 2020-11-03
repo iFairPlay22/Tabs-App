@@ -37,6 +37,7 @@ body {}
     color: $light;
 }
 
+// CLICKABLE
 .clickable-el {
     cursor: pointer;
     transition: all $animationTime;
@@ -45,4 +46,20 @@ body {}
 .clickable-el:hover {
     // opacity: .5;
     background-color: $info;
+}
+
+// NOTIFICATION
+.notification {
+    position: relative;
+    display: inline-block;
+}
+
+.notification .top-right {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    padding: 6px 9px;
+    border-radius: 50%;
+    background: $secondary;
+    color: $light;
 }

@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class BandFixtures extends AppFixtures implements DependentFixtureInterface
 {
-    public static $total = 5;
+    public static $total = 500;
 
     public function load(ObjectManager $manager)
     {

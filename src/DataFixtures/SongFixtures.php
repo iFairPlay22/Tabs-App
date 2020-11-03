@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class SongFixtures extends AppFixtures implements DependentFixtureInterface
 {
-    public static $total = 20;
+    public static $total = 10000;
 
     public function load(ObjectManager $manager)
     {

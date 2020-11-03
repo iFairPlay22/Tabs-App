@@ -1,0 +1,41 @@
+{# Component must be inside a form #}
+
+<div class="d-flex align-items-center justify-content-between mt-3">
+	<nav class="pagination-container">
+		<input type="hidden" id="paginationRow" name="pagination_row" value="0">
+		<ul class="mb-0 pagination">
+			{% if 1 <= pagination.index and pagination.index <= pagination.max %}
+				<li class="page-item">
+					<button data-id="{{ pagination.index - 1 }}" type="send" class="page-link" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</button>
+				</li>
+			{% endif %}
+
+			{% for i in (- 1)..(1) %}
+				{% if 0 <= pagination.index + i and pagination.index + i <= pagination.max %}
+					<li class="page-item">
+						<button data-id="{{ pagination.index + i }}" type="send" class="page-link">
+							{{ pagination.index + i }}
+						</button>
+					</li>
+				{% endif %}
+			{% endfor %}
+
+			{% if 0 <= pagination.index and pagination.index <= pagination.max - 1 %}
+				<li class="page-item">
+					<button data-id="{{ pagination.index + 1 }}" type="send" class="page-link" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</button>
+				</li>
+			{% endif %}
+		</ul>
+	</nav>
+	<span class="ml-3 text-right">Total des résultats :
+		{{ pagination.nbResults }}<br>
+		Affichage :
+		{{ pagination.index * pagination.limit + 1 }}
+		-
+		{{ pagination.index * pagination.limit + items|length }}
+	</span>
+</div>

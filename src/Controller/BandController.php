@@ -24,20 +24,33 @@ class BandController extends AbstractController
     public function all(Request $request)
     {
         $user = $this->getUser();
+
         $search = $request->get("band_search");
+        $limit = 7;
+        $index = $request->get("pagination_row");
+        $indexId = $index * $limit;
 
         if ($search != NULL && $search != "") {
-            $bands = $this->getDoctrine()
-                ->getRepository(Band::class)
-                ->findByName($user, $search);
+            $tmp = $this->getDoctrine()
+                ->getRepository(Band::class);
+            $nbTotalResults = $tmp->getNumberResults($user, $search)["nb_result"];
+            $bands = $tmp->findByName($user, $search, $indexId, $limit);
         } else {
-            $bands = $user->getBands();
+            $tmp = $user->getBands();
+            $nbTotalResults = $tmp->count();
+            $bands = $tmp->slice($indexId, $limit);
         }
 
         return $this->render('band/all.html.twig', [
             'user' => $user,
             'bands' => $bands,
-            'search' => $search
+            'search' => $search,
+            'pagination' => [
+                'index' => $index,
+                'limit' => $limit,
+                'nbResults' => $nbTotalResults,
+                'max' => intval($nbTotalResults / $limit)
+            ]
         ]);
     }
 
