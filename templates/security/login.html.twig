@@ -1,8 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!
-{% endblock %}
-
 {% block verticallyCenter %}
 	<div class="col-lg-5 col-md-10 col-sm-10 col-12">
 		<div class="card">
@@ -39,15 +36,15 @@
 					type="hidden" name="user[_csrf_token]" value="{{ csrf_token('authenticate') }}">
 
 					{#
-					                                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-					                                See https://symfony.com/doc/current/security/remember_me.html
-					
-					                                <div class="checkbox mb-3">
-					                                    <label>
-					                                        <input type="checkbox" name="user[_remember_me]"> Remember me
-					                                    </label>
-					                                </div>
-					                            #}
+										                                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+										                                See https://symfony.com/doc/current/security/remember_me.html
+										
+										                                <div class="checkbox mb-3">
+										                                    <label>
+										                                        <input type="checkbox" name="user[_remember_me]"> Remember me
+										                                    </label>
+										                                </div>
+										                            #}
 
 					{{ form_row(form.save) }}
 					{{ form_end(form) }}
