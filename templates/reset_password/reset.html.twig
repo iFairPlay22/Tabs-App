@@ -2,20 +2,18 @@
 
 {% block verticallyCenter %}
 
-	<div class="col-lg-5 col-md-10 col-sm-10 col-12">
-		<div class="card">
-			<div class="card-body rounded border border-primary">
-				<h1 class="card-title mb-5 d-flex align-items-center">
-					<ion-icon name="arrow-forward-circle-outline" class="mr-2"></ion-icon>
-					<span>Reset your password</span>
-				</h1>
-				<div class="form">
-					{{ form_start(resetForm) }}
-					{{ form_errors(resetForm) }}
-					{{ form_row(resetForm.plainPassword) }}
-					<button class="btn btn-primary">Reset password</button>
-					{{ form_end(resetForm) }}
-				</div>
+	<div class="card">
+		<div class="card-body rounded border border-primary">
+			<h1 class="card-title mb-5 d-flex align-items-center">
+				<ion-icon name="arrow-forward-circle-outline" class="mr-2"></ion-icon>
+				<span>Reset your password</span>
+			</h1>
+			<div class="form">
+				{{ form_start(resetForm) }}
+				{{ form_errors(resetForm) }}
+				{{ form_row(resetForm.plainPassword) }}
+				<button class="btn btn-primary">Reset password</button>
+				{{ form_end(resetForm) }}
 			</div>
 		</div>
 	</div>

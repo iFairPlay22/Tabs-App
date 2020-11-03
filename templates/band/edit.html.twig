@@ -1,28 +1,26 @@
 {% extends 'base.html.twig' %}
 {% block verticallyCenter %}
-	<div class="col-lg-5 col-md-10 col-sm-10 col-12">
-		<div class="card">
-			<div class="card-body rounded border border-primary">
-				<h1 class="card-title mb-5 d-flex align-items-center">
-					<ion-icon name="arrow-forward-circle-outline" class="mr-2"></ion-icon>
-					<span>
-						Edit :
-						{{ band.name|e}}
+	<div class="card">
+		<div class="card-body rounded border border-primary">
+			<h1 class="card-title mb-5 d-flex align-items-center">
+				<ion-icon name="arrow-forward-circle-outline" class="mr-2"></ion-icon>
+				<span>
+					Edit :
+					{{ band.name|e}}
+				</span>
+			</h1>
+			{{ form_start(form) }}
+			{{ form_errors(form) }}
+			{{ form_row(form.name) }}
+			<div class="d-flex justify-content-end">
+				{{ form_widget(form.save) }}
+				<button type="button" class="ml-3 btn btn-danger d-flex align-items-center" data-toggle="modal" data-target="#confirmModal">
+					<ion-icon class="mr-1" name="alert-circle-outline"></ion-icon>
+					<span>Delete
 					</span>
-				</h1>
-				{{ form_start(form) }}
-				{{ form_errors(form) }}
-				{{ form_row(form.name) }}
-				<div class="d-flex justify-content-end">
-					{{ form_widget(form.save) }}
-					<button type="button" class="ml-3 btn btn-danger d-flex align-items-center" data-toggle="modal" data-target="#confirmModal">
-						<ion-icon class="mr-1" name="alert-circle-outline"></ion-icon>
-						<span>Delete
-						</span>
-					</button>
-				</div>
-				{{ form_end(form) }}
+				</button>
 			</div>
+			{{ form_end(form) }}
 		</div>
 	</div>
 	<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">

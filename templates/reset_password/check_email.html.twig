@@ -2,19 +2,17 @@
 
 {% block verticallyCenter %}
 
-	<div class="col-lg-5 col-md-10 col-sm-10 col-12">
-		<div class="card">
-			<div class="card-body rounded border border-primary">
-				<h1 class="card-title mb-5 d-flex align-items-center">
-					<ion-icon name="arrow-forward-circle-outline" class="mr-2"></ion-icon>
-					<span>Reset your password</span>
-				</h1>
-				<p>An email has been sent that contains a link that you can click to reset your password. This link will expire in
-					{{ tokenLifetime|date('g') }}
-					hour(s).</p>
-				<p>If you don't receive an email please check your spam folder or
-					<a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
-			</div>
+	<div class="card">
+		<div class="card-body rounded border border-primary">
+			<h1 class="card-title mb-5 d-flex align-items-center">
+				<ion-icon name="arrow-forward-circle-outline" class="mr-2"></ion-icon>
+				<span>Reset your password</span>
+			</h1>
+			<p>An email has been sent that contains a link that you can click to reset your password. This link will expire in
+				{{ tokenLifetime|date('g') }}
+				hour(s).</p>
+			<p>If you don't receive an email please check your spam folder or
+				<a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
 		</div>
 	</div>
 

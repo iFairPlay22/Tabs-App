@@ -2,42 +2,40 @@
 
 {% block verticallyCenter %}
 
-	<div class="col-lg-4 col-md-8 col-sm-10 col-12">
-		<div class="card">
-			<div class="card-body rounded border border-primary">
-				<h1 class="card-title mb-5 d-flex align-items-center">
-					<ion-icon name="people-outline" class="mr-2"></ion-icon>
-					<span>Add a member</span>
-				</h1>
-				<div class="form">
-					<form name="member" method="post">
+	<div class="card">
+		<div class="card-body rounded border border-primary">
+			<h1 class="card-title mb-5 d-flex align-items-center">
+				<ion-icon name="people-outline" class="mr-2"></ion-icon>
+				<span>Add a member</span>
+			</h1>
+			<div class="form">
+				<form name="member" method="post">
 
-						{% for flash in app.flashes('user_code_error') %}
-							<div class="alert alert-danger" role="alert">
-								{{ flash }}
-							</div>
-						{% endfor %}
-
-						{% for flash in app.flashes('user_code_ok') %}
-							<div class="alert alert-success" role="alert">
-								{{ flash }}
-							</div>
-						{% endfor %}
-
-						<div class="form-group">
-							<label for="user_code" class="required">
-								Add user code
-							</label>
-							<input type="text" id="user_code" name="user_code" required="required" class="form-control"/>
+					{% for flash in app.flashes('user_code_error') %}
+						<div class="alert alert-danger" role="alert">
+							{{ flash }}
 						</div>
+					{% endfor %}
 
-						<div class="form-group">
-							<button type="submit" id="user_save" name="user_save" class="btn-primary btn">
-								Add
-							</button>
+					{% for flash in app.flashes('user_code_ok') %}
+						<div class="alert alert-success" role="alert">
+							{{ flash }}
 						</div>
-					</form>
-				</div>
+					{% endfor %}
+
+					<div class="form-group">
+						<label for="user_code" class="required">
+							Add user code
+						</label>
+						<input type="text" id="user_code" name="user_code" required="required" class="form-control"/>
+					</div>
+
+					<div class="form-group">
+						<button type="submit" id="user_save" name="user_save" class="btn-primary btn">
+							Add
+						</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
