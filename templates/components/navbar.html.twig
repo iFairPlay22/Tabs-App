@@ -1,10 +1,10 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-expand-sm navbar-dark bg-primary">
 	<a class="navbar-brand light-color" href="{{ path('app_home') }}">Tabs@app</a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
-	<div class="collapse navbar-collapse d-flex justify-content-lg-end">
-		<ul class="navbar-nav" id="navbarNavDropdown">
+	<div class="d-flex justify-content-lg-end navbar-collapse">
+		<ul class="py-2 collapse navbar-nav" id="navbarNavDropdown">
 			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 				<a class="nav-link" href="{{ path('bands_all') }}">
 					Bands
