@@ -6,6 +6,7 @@ use App\Entity\Band;
 use App\Entity\Song;
 use App\Form\BandType;
 use App\Form\FormUtils;
+use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,15 +32,15 @@ class BandController extends AbstractController
         $indexId = $index * $limit;
 
         if ($search != NULL && $search != "") {
-            $tmp = $this->getDoctrine()
-                ->getRepository(Band::class);
-            $nbTotalResults = $tmp->getNumberResults($user, $search)["nb_result"];
-            $bands = $tmp->findByName($user, $search, $indexId, $limit);
+            $bands = new ArrayCollection($this->getDoctrine()
+                ->getRepository(Band::class)
+                ->findByName($user, $search));
         } else {
-            $tmp = $user->getBands();
-            $nbTotalResults = $tmp->count();
-            $bands = $tmp->slice($indexId, $limit);
+            $bands = $user->getBands();
         }
+
+        $nbTotalResults = $bands->count();
+        $bands = $bands->slice($indexId, $limit);
 
         return $this->render('band/all.html.twig', [
             'user' => $user,
@@ -115,19 +116,31 @@ class BandController extends AbstractController
         $this->getUser()->requireMemberOf($band);
 
         $search = $request->get("song_search");
+        $limit = 7;
+        $index = $request->get("pagination_row");
+        $indexId = $index * $limit;
 
         if ($search != NULL && $search != "") {
             $songs = $this->getDoctrine()
                 ->getRepository(Song::class)
-                ->findWhereLike($band, $search);
+                ->findByName($band, $search);
         } else {
             $songs = $band->getSongs();
         }
 
+        $nbTotalResults = $songs->count();
+        $songs = $songs->slice($indexId, $limit);
+
         return $this->render('song/all.html.twig', [
             'band' => $band,
             'songs' => $songs,
-            'search' => $search
+            'search' => $search,
+            'pagination' => [
+                'index' => $index,
+                'limit' => $limit,
+                'nbResults' => $nbTotalResults,
+                'max' => intval($nbTotalResults / $limit)
+            ]
         ]);
     }
 }

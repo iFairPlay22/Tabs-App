@@ -1,7 +1,7 @@
 {# Component must be inside a form #}
+{# encore_entry_script_tags('js/pagination') #}
 
-<div class="d-flex align-items-center justify-content-between mt-3">
-	<nav class="pagination-container">
+	<div class="d-flex align-items-center justify-content-between mt-3"> <nav class="pagination-container">
 		<input type="hidden" id="paginationRow" name="pagination_row" value="0">
 		<ul class="mb-0 pagination">
 			{% if 1 <= pagination.index and pagination.index <= pagination.max %}

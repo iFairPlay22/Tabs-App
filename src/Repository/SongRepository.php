@@ -23,7 +23,7 @@ class SongRepository extends ServiceEntityRepository
     // /**
     //  * @return Song[] Returns an array of Song objects
     //  */
-    public function findWhereLike($band, $value)
+    public function findByName($band, $value)
     {
         $words = explode(' ', $value);
 
