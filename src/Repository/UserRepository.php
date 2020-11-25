@@ -47,6 +47,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getOneOrNullResult();
     }
 
+    public function getDB($tables): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $res = [];
+
+        foreach ($tables as $table) {
+            $sql = 'SELECT * FROM ' . $table;
+            $stmt = $conn->prepare($sql);
+            $stmt->execute(['aa' => $table]);
+            $res[$table] = $stmt->fetchAll();
+        }
+
+        return $res;
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
