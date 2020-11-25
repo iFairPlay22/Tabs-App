@@ -4,7 +4,7 @@
 	<div class="d-flex align-items-center justify-content-between mt-3"> <nav class="pagination-container">
 		<input type="hidden" id="paginationRow" name="pagination_row" value="0">
 		<ul class="mb-0 pagination">
-			{% if 1 <= pagination.index and pagination.index <= pagination.max %}
+			{% if 1 <= pagination.index %}
 				<li class="page-item">
 					<button data-id="{{ pagination.index - 1 }}" type="send" class="page-link" aria-label="Previous">
 						<span aria-hidden="true">&laquo;</span>
@@ -15,14 +15,15 @@
 			{% for i in (- 1)..(1) %}
 				{% if 0 <= pagination.index + i and pagination.index + i <= pagination.max %}
 					<li class="page-item">
-						<button data-id="{{ pagination.index + i }}" type="send" class="page-link">
+
+						<button {% if (i == 0) %} style="display: none;" {% endif %} data-id="{{ pagination.index + i }}" type="send" class="page-link">
 							{{ pagination.index + i }}
 						</button>
 					</li>
 				{% endif %}
 			{% endfor %}
 
-			{% if 0 <= pagination.index and pagination.index <= pagination.max - 1 %}
+			{% if pagination.index < pagination.max %}
 				<li class="page-item">
 					<button data-id="{{ pagination.index + 1 }}" type="send" class="page-link" aria-label="Next">
 						<span aria-hidden="true">&raquo;</span>
