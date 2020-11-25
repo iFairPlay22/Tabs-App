@@ -13,17 +13,17 @@
 			{{ encore_entry_link_tags('app') }}
 
 			<!-- Renders a link tag (if your module requires any CSS)
-																																										                    <link rel="stylesheet" href="/build/app.css"> -->
+																																																																																																															                    <link rel="stylesheet" href="/build/app.css"> -->
 			<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
 		{% endblock %}
 	</head>
-	<body class="h-100">
+	<body>
 		{{ include ("components/navbar.html.twig") }}
 
 		{% block body %}
-			<div class="container-fluid h-100">
+			<div style="margin : 125px 0;" class="container-fluid">
 				<div
-					class="h-100 row align-items-center justify-content-center">
+					class="row align-items-center justify-content-center">
 					{# <div class="col-lg-5 col-md-10 col-sm-10 col-12"> #}
 					<div class="col-lg-6 col-md-8 col-sm-10 col-12">
 						{% block verticallyCenter %}{% endblock %}
@@ -38,8 +38,8 @@
 			{{ encore_entry_script_tags('app') }}
 
 			<!-- Renders app.js & a webpack runtime.js file
-																																										                <script src="/build/runtime.js"></script>
-																																										                <script src="/build/app.js"></script> -->
+																																																																																																															                <script src="/build/runtime.js"></script>
+																																																																																																															                <script src="/build/app.js"></script> -->
 		{% endblock %}
 	</body>
 </html>

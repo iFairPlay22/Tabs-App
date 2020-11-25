@@ -5,12 +5,15 @@
 
 	<div class="card">
 		<div class="card-body rounded border border-primary">
-			<h1 class="card-title mb-5 d-flex align-items-center">
+			<h1 class="card-title d-flex align-items-center">
 				<ion-icon name="musical-notes-outline" class="mr-2"></ion-icon>
 				<span>My song :
 					{{ song.songName }}</span>
 			</h1>
-			<div class="mb-2 d-flex justify-content-end align-items-center">
+			<h2 class="card-subtitle text-muted">
+				{{ song.groupName }}
+			</h2>
+			<div class="d-flex justify-content-end align-items-center">
 				<a href="{{ path('songs_edit', { song : song.id, band : song.band.id }) }}">
 					Edit the song
 				</a>
