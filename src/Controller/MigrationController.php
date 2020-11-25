@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Band;
+use App\Entity\Song;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,9 +12,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class MigrationController extends AbstractController
 {
+    private $tables = ['song', 'band_user', 'band', 'user'];
+
     private function secureAction(Request $request, $callback)
     {
         $user = $request->get("_user_");
@@ -41,9 +46,7 @@ class MigrationController extends AbstractController
                 function () {
                     return $this->getDoctrine()
                         ->getRepository(User::class)
-                        ->getDB(
-                            ['user', 'band_user', 'band', 'song']
-                        );
+                        ->getDB($this->tables);
                 }
             )
         );
@@ -52,18 +55,98 @@ class MigrationController extends AbstractController
     /**
      * @Route("/migration/set", name="migration_set")
      */
-    public function setDB(Request $request)
+    public function setDB(Request $request, HttpClientInterface $client)
     {
         return $this->json(
             $this->secureAction(
                 $request,
-                function () use ($request) {
+                function () use ($client) {
 
-                    $json = $this->getDB($request);
+                    # FETCH PROD URL #
+                    $data = $client->request(
+                        'GET',
+                        'http://my-bands-app.herokuapp.com/index.php/migration/get'
+                            . '?_user_=_user_&_password_=_password_'
+                    )->toArray();
 
-                    $data = json_decode($json);
+                    # RESET DB #
+                    $this->getDoctrine()
+                        ->getRepository(User::class)
+                        ->resetDB($this->tables);
 
-                    return $data;
+                    $entityManager = $this->getDoctrine()->getManager();
+
+                    # CREATE USERS #
+
+                    $users = [];
+
+                    foreach ($data['user'] as $userList) {
+
+                        $user = new User();
+
+                        $user->setId($userList["id"]);
+                        $user->setEmail($userList["email"]);
+                        $user->setPassword($userList["password"]);
+                        $user->setRoles(explode(',', $userList["roles"]));
+
+                        $users[$user->getId()] = $user;
+                    }
+
+                    # CREATE BANDS #
+
+                    $bands = [];
+
+                    foreach ($data['band'] as $bandList) {
+
+                        $band = new Band();
+
+                        $band->setId($bandList["id"]);
+                        $band->setName($bandList["name"]);
+
+                        $bands[$band->getId()] = $band;
+                    }
+
+                    # CREATE USER_BANDS #
+
+                    foreach ($data['band_user'] as $bandUserList) {
+
+                        $bands[$bandUserList["band_id"]]->addMember(
+                            $users[$bandUserList["user_id"]]
+                        );
+                    }
+
+                    # CREATE SONGS #
+
+                    $songs = [];
+
+                    foreach ($data['song'] as $songList) {
+
+                        $song = new Song();
+
+                        $song->setId($songList["id"]);
+                        $song->setCapo($songList["capo"]);
+                        $song->setSongName($songList["song_name"]);
+                        $song->setGroupName($songList["song_name"]);
+                        $song->setContent($songList["content"]);
+
+                        $song->setBand(
+                            $bands[$songList["band_id"]]
+                        );
+
+                        $songs[$song->getId()] = $song;
+                    }
+
+                    ## UPDATE DB ##
+
+                    foreach ([$users, $bands, $songs] as $group) {
+                        foreach ($group as $id => $obj) {
+                            $entityManager->persist($obj);
+                        }
+                    }
+
+                    $entityManager->flush();
+
+                    return "Done";
                 }
             )
         );

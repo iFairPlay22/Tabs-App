@@ -55,11 +55,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         foreach ($tables as $table) {
             $sql = 'SELECT * FROM ' . $table;
             $stmt = $conn->prepare($sql);
-            $stmt->execute(['aa' => $table]);
+            $stmt->execute();
             $res[$table] = $stmt->fetchAll();
         }
 
         return $res;
+    }
+
+    public function resetDB($tables)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        foreach ($tables as $table) {
+            $sql = 'DELETE FROM ' . $table;
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+        }
     }
 
     // /**
