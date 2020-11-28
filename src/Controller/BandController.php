@@ -32,9 +32,11 @@ class BandController extends AbstractController
         $indexId = $index * $limit;
 
         if ($search != NULL && $search != "") {
-            $bands = new ArrayCollection($this->getDoctrine()
-                ->getRepository(Band::class)
-                ->findByName($user, $search));
+            $bands = new ArrayCollection(
+                $this->getDoctrine()
+                    ->getRepository(Band::class)
+                    ->findByName($user, $search)
+            );
         } else {
             $bands = $user->getBands();
         }
@@ -121,9 +123,11 @@ class BandController extends AbstractController
         $indexId = $index * $limit;
 
         if ($search != NULL && $search != "") {
-            $songs = $this->getDoctrine()
-                ->getRepository(Song::class)
-                ->findByName($band, $search);
+            $songs = new ArrayCollection(
+                $this->getDoctrine()
+                    ->getRepository(Song::class)
+                    ->findByName($band, $search)
+            );
         } else {
             $songs = $band->getSongs();
         }

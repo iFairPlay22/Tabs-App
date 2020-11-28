@@ -4,7 +4,7 @@
 	<div class="card">
 		<div class="card-body rounded border border-primary">
 			<h1 class="card-title mb-5 d-flex align-items-center">
-				<ion-icon name="arrow-forward-circle-outline" class="mr-2"></ion-icon>
+				<ion-icon name="arrow-forward-circle-outline" class="d-sm-inline d-none mr-2"></ion-icon>
 				<span>
 					Login to tabs@app!</span>
 			</h1>
@@ -38,11 +38,11 @@
 				{# See https://symfony.com/doc/current/security/remember_me.html #}
 
 				{# <div class="checkbox mb-3">
-							<label>
-								<input type="checkbox" name="user[_remember_me]">
-								Remember me
-							</label>
-						</div> #}
+											<label>
+												<input type="checkbox" name="user[_remember_me]">
+												Remember me
+											</label>
+										</div> #}
 
 
 				{{ form_row(form.save) }}

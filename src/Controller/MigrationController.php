@@ -5,13 +5,9 @@ namespace App\Controller;
 use App\Entity\Band;
 use App\Entity\Song;
 use App\Entity\User;
-use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class MigrationController extends AbstractController
@@ -126,7 +122,7 @@ class MigrationController extends AbstractController
                         $song->setId($songList["id"]);
                         $song->setCapo($songList["capo"]);
                         $song->setSongName($songList["song_name"]);
-                        $song->setGroupName($songList["song_name"]);
+                        $song->setGroupName($songList["group_name"]);
                         $song->setContent($songList["content"]);
 
                         $song->setBand(

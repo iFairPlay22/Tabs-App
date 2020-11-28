@@ -15,15 +15,15 @@ class SongType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('capo', TextType::class, [
-                'required' => true,
-                'label' => 'Tone / Capo'
-            ])
             ->add('song_name', TextType::class, [
                 'required' => true
             ])
             ->add('group_name', TextType::class, [
                 'required' => true
+            ])
+            ->add('capo', TextType::class, [
+                'required' => true,
+                'data' => 'Aucun'
             ])
             ->add('content', TextareaType::class, [
                 'required' => true,
