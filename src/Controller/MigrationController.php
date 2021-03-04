@@ -13,7 +13,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class MigrationController extends AbstractController
 {
-    private $tables = ['song', 'tag', 'band_user', 'band', 'user'];
+    private $tables = ['song', /*'tag',*/ 'band_user', 'band', 'user'];
 
     private function secureAction(Request $request, $callback)
     {
