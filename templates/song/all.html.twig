@@ -48,7 +48,7 @@
 							<ul class="list-group">
 								{% for song in songs %}
 									<li onclick="location.href = '{{ path('songs_one', { song : song.id, band : song.band.id }) }}';" class="list-group-item d-flex justify-content-between align-items-center clickable-el">
-
+										
 										<span class="d-flex align-items-center">
 											<ion-icon name="musical-note-outline" class="mr-3"></ion-icon>
 											<span>
@@ -56,6 +56,17 @@
 												{{ song.groupName|e }}
 											</span>
 										</span>
+
+										{% if song.tag is defined and song.tag is not null %}
+											<div>
+												<a class="notification">
+													<span style="background-color : {{ song.tag.color }};" class="px-2 py-2 badge badge-primary badge-pill">
+														{{ song.tag.label }}
+													</span>
+												</a>
+											</div>
+										{% endif %}
+										
 									</li>
 								{% endfor %}
 							</ul>

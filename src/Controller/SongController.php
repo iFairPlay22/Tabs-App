@@ -6,6 +6,7 @@ use App\Entity\Band;
 use App\Entity\Song;
 use App\Form\FormUtils;
 use App\Form\SongType;
+use App\Form\TagType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,6 +61,7 @@ class SongController extends AbstractController
     {
         $this->getUser()->requireMemberOf($band);
         $song->requireSongOf($band);
+        $tag = $song->getTag();
 
         $form = $this->createForm(SongType::class, $song, ["submit_label" => "Modify"]);
 

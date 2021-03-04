@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Band;
 use App\Entity\Song;
+use App\Entity\Tag;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class MigrationController extends AbstractController
 {
-    private $tables = ['song', 'band_user', 'band', 'user'];
+    private $tables = ['song', 'tag', 'band_user', 'band', 'user'];
 
     private function secureAction(Request $request, $callback)
     {
@@ -31,6 +32,7 @@ class MigrationController extends AbstractController
 
         return $callback();
     }
+
     /**
      * @Route("/migration/get", name="migration_get")
      */
@@ -111,6 +113,21 @@ class MigrationController extends AbstractController
                         );
                     }
 
+                    # CREATE TAGS #
+
+                    $tags = [];
+
+                    foreach ($data['tag'] as $tagList) {
+
+                        $tag = new Tag();
+
+                        $tag->setId($tagList["id"]);
+                        $tag->setLabel($tagList["label"]);
+                        $tag->setColor($tagList["color"]);
+
+                        $tags[$tag->getId()] = $tag;
+                    }
+
                     # CREATE SONGS #
 
                     $songs = [];
@@ -129,12 +146,17 @@ class MigrationController extends AbstractController
                             $bands[$songList["band_id"]]
                         );
 
+                        if ($songList["tag_id"] != NULL) 
+                            $song->setTag(
+                                $tags[$songList["tag_id"]]
+                            );
+
                         $songs[$song->getId()] = $song;
                     }
 
                     ## UPDATE DB ##
 
-                    foreach ([$users, $bands, $songs] as $group) {
+                    foreach ([$users, $bands, $tags, $songs] as $group) {
                         foreach ($group as $id => $obj) {
                             $entityManager->persist($obj);
                         }

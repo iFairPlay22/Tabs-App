@@ -29,12 +29,13 @@ class SongRepository extends ServiceEntityRepository
 
         $query = $this->createQueryBuilder('s')
             ->where('s.band = :band')
-            ->setParameter('band', $band);
+            ->setParameter('band', $band)
+            ->leftJoin('s.tag', 't');
 
         for ($i = 0; $i < count($words); $i++) {
             $val = 'val' . $i;
             $query->andWhere(
-                's.song_name LIKE :' . $val . ' OR s.group_name LIKE :' . $val . ' OR s.capo LIKE :' . $val
+                's.song_name LIKE :' . $val . ' OR s.group_name LIKE :' . $val . ' OR s.capo LIKE :' . $val . ' OR t.label LIKE :' . $val
             )->setParameter($val, '%' . $words[$i] . '%');
         }
 

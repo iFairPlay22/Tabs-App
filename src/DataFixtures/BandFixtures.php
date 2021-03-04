@@ -5,9 +5,10 @@ namespace App\DataFixtures;
 use App\Entity\Band;
 use App\Entity\User;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class BandFixtures extends AppFixtures implements DependentFixtureInterface
+class BandFixtures extends AppFixtures implements DependentFixtureInterface, FixtureGroupInterface
 {
     public static $total = 500;
 
@@ -33,5 +34,10 @@ class BandFixtures extends AppFixtures implements DependentFixtureInterface
         return [
             UserFixtures::class
         ];
+    }
+
+    public static function getGroups(): array
+    {
+        return ['dev'];
     }
 }

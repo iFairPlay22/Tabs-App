@@ -4,12 +4,14 @@ namespace App\DataFixtures;
 
 use App\Entity\Band;
 use App\Entity\Song;
+use App\Entity\Tag;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class SongFixtures extends AppFixtures implements DependentFixtureInterface
+class SongFixtures extends AppFixtures implements DependentFixtureInterface, FixtureGroupInterface
 {
-    public static $total = 10000;
+    public static $total = 1000;
 
     public function load(ObjectManager $manager)
     {
@@ -29,12 +31,25 @@ class SongFixtures extends AppFixtures implements DependentFixtureInterface
         );
 
         $band->addSong($entity);
+
+        $tag = $this->getCustumReference(
+            Tag::class,
+            self::$faker->numberBetween(0, TagFixtures::$total - 1)
+        );
+
+        $tag->addSong($entity);
     }
 
     public function getDependencies()
     {
         return [
+            TagFixtures::class,
             BandFixtures::class
         ];
+    }
+
+    public static function getGroups(): array
+    {
+        return ['dev'];
     }
 }

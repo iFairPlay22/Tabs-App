@@ -13,6 +13,12 @@
 			<h2 class="card-subtitle text-muted">
 				{{ song.groupName }}
 			</h2>
+			{% if song.tag is defined and song.tag is not null %}
+				<span style="background-color : {{ song.tag.color }};" class="mt-3 px-2 py-2 badge badge-primary badge-pill">
+					{{ song.tag.label }}
+				</span>	
+			{% endif %}
+
 			<div class="d-flex justify-content-end align-items-center">
 				<a href="{{ path('songs_edit', { song : song.id, band : song.band.id }) }}">
 					Edit the song

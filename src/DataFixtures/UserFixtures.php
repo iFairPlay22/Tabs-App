@@ -5,10 +5,11 @@ namespace App\DataFixtures;
 use App\Entity\Band;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserFixtures extends AppFixtures
+class UserFixtures extends AppFixtures implements FixtureGroupInterface
 {
     public static $total = 2;
 
@@ -32,5 +33,10 @@ class UserFixtures extends AppFixtures
             "12345"
             // self::$faker->password
         ));
+    }
+
+    public static function getGroups(): array
+    {
+        return ['dev'];
     }
 }

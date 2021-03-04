@@ -4,16 +4,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="UTF-8">
 		<title>
-			{% block title %}Tabs@app
+			{% block title %}
+				Tabs@app
 			{% endblock %}
 		</title>
 		{% block stylesheets %}
-
-			{# 'app' must match the first argument to addEntry() in webpack.config.js #}
 			{{ encore_entry_link_tags('app') }}
-
-			<!-- Renders a link tag (if your module requires any CSS)
-																																																																																																																																	                    <link rel="stylesheet" href="/build/app.css"> -->
 			<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
 		{% endblock %}
 	</head>
@@ -32,14 +28,9 @@
 			</div>
 		{% endblock %}
 
-		{{ include ("components/footbar.html.twig") }}
-
+		{# {{ include ("components/footbar.html.twig") }} #}
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
-
-			<!-- Renders app.js & a webpack runtime.js file
-																																																																																																																																	                <script src="/build/runtime.js"></script>
-																																																																																																																																	                <script src="/build/app.js"></script> -->
 		{% endblock %}
 	</body>
 </html>
