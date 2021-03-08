@@ -45,7 +45,7 @@ class Song
     private $group_name;
 
     /**
-     * @ORM\Column(type="string", length=10000)
+     * @ORM\Column(type="text")
      */
     private $content;
 
@@ -53,6 +53,11 @@ class Song
      * @ORM\ManyToOne(targetEntity=Tag::class, inversedBy="songs")
      */
     private $tag;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $lyrics;
 
     public function __construct()
     {
@@ -155,8 +160,16 @@ class Song
         $metadata->addPropertyConstraint('content', new Length([
             'min' => 0,
             'max' => 10000,
-            'minMessage' => 'Content must be at least {{ limit }} characters long',
-            'maxMessage' => 'Content name name cannot be longer than {{ limit }} characters',
+            'minMessage' => 'Partition content must be at least {{ limit }} characters long',
+            'maxMessage' => 'Partition content cannot be longer than {{ limit }} characters',
+            'allowEmptyString' => true,
+        ]));
+
+        $metadata->addPropertyConstraint('lyrics', new Length([
+            'min' => 0,
+            'max' => 10000,
+            'minMessage' => 'Lyrics content be at least {{ limit }} characters long',
+            'maxMessage' => 'Lyrics content name cannot be longer than {{ limit }} characters',
             'allowEmptyString' => true,
         ]));
     }
@@ -187,6 +200,18 @@ class Song
     public function setTag(?Tag $tag): self
     {
         $this->tag = $tag;
+
+        return $this;
+    }
+
+    public function getLyrics(): ?string
+    {
+        return $this->lyrics;
+    }
+
+    public function setLyrics(?string $lyrics): self
+    {
+        $this->lyrics = $lyrics;
 
         return $this;
     }

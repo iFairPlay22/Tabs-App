@@ -29,7 +29,19 @@ class SongController extends AbstractController
         $song->requireSongOf($band);
 
         return $this->render('song/one.html.twig', [
-            'song' => $song
+            'song' => $song,
+            'tabs' => [
+                [
+                    'id' => 'guitar',
+                    'title' => 'Guitar',
+                    'content' => $song->getContent()
+                ],
+                [
+                    'id' => 'lyrics',
+                    'title' => 'Lyrics',
+                    'content' => $song->getLyrics()
+                ]
+            ]
         ]);
     }
 

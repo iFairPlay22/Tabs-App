@@ -33,6 +33,12 @@ class SongType extends AbstractType
                     'rows' => 5
                 ]
             ])
+            ->add('lyrics', TextareaType::class, [
+                'required' => true,
+                'attr' => [
+                    'rows' => 5
+                ]
+            ])
             ->add('tag', EntityType::class, [
                 'required' => true,
                 'class' => Tag::class,

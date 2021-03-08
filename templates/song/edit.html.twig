@@ -2,7 +2,7 @@
 {% block verticallyCenter %}
 	<div class="card">
 		<div class="card-body rounded border border-primary">
-			<h1 class="card-title mb-5 d-flex align-items-center">
+			<h1 class="card-title mb-4 d-flex align-items-center">
 				<ion-icon name="arrow-forward-circle-outline" class="d-sm-inline d-none mr-2"></ion-icon>
 				<span>
 					Edit :
@@ -15,7 +15,7 @@
 			{{ form_row(form.group_name) }}
 			{{ form_row(form.tag) }}
 			{{ form_row(form.capo) }}
-
+			{{ form_row(form.lyrics) }}
 			{{ form_row(form.content) }}
 			<div class="d-flex justify-content-end">
 				{{ form_widget(form.save) }}
