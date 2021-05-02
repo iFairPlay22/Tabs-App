@@ -29,12 +29,13 @@ class SongController extends AbstractController
         $song->requireSongOf($band);
 
         return $this->render('song/one.html.twig', [
+            'band' => $band,
             'song' => $song,
             'tabs' => [
                 [
                     'id' => 'guitar',
                     'title' => 'Guitar',
-                    'content' => $song->getContent()
+                    'content' => $song->getGuitarTabs()
                 ],
                 [
                     'id' => 'lyrics',
@@ -61,6 +62,7 @@ class SongController extends AbstractController
             return $this->redirectToRoute('bands_one', ['band' => $band->getId()]);
 
         return $this->render('song/create.html.twig', [
+            'band' => $band,
             'song' => $song,
             'form' => $form->createView()
         ]);
@@ -73,17 +75,18 @@ class SongController extends AbstractController
     {
         $this->getUser()->requireMemberOf($band);
         $song->requireSongOf($band);
-        $tag = $song->getTag();
 
         $form = $this->createForm(SongType::class, $song, ["submit_label" => "Modify"]);
 
         if (FormUtils::updateDBIfValid($request, $form, $this->getDoctrine()->getManager()))
             return $this->redirectToRoute('songs_one', [
+                'band' => $band,
                 'song' => $song->getId(),
                 'band' => $song->getBand()->getId()
             ]);
 
         return $this->render('song/edit.html.twig', [
+            'band' => $band,
             'song' => $song,
             'form' => $form->createView()
         ]);

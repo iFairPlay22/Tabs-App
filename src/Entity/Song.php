@@ -47,7 +47,7 @@ class Song
     /**
      * @ORM\Column(type="text")
      */
-    private $content;
+    private $guitar_tabs;
 
     /**
      * @ORM\ManyToOne(targetEntity=Tag::class, inversedBy="songs")
@@ -131,7 +131,7 @@ class Song
         $metadata->addPropertyConstraint('capo', new NotBlank());
         $metadata->addPropertyConstraint('song_name', new NotBlank());
         $metadata->addPropertyConstraint('group_name', new NotBlank());
-        $metadata->addPropertyConstraint('content', new NotBlank());
+        $metadata->addPropertyConstraint('guitar_tabs', new NotBlank());
 
         $metadata->addPropertyConstraint('capo', new Length([
             'min' => 1,
@@ -157,7 +157,7 @@ class Song
             'allowEmptyString' => false,
         ]));
 
-        $metadata->addPropertyConstraint('content', new Length([
+        $metadata->addPropertyConstraint('guitar_tabs', new Length([
             'min' => 0,
             'max' => 10000,
             'minMessage' => 'Partition content must be at least {{ limit }} characters long',
@@ -180,14 +180,14 @@ class Song
             throw new AccessDeniedException("Band does not contains this song!");
     }
 
-    public function getContent(): ?string
+    public function getGuitarTabs(): ?string
     {
-        return $this->content;
+        return $this->guitar_tabs;
     }
 
-    public function setContent(string $content): self
+    public function setGuitarTabs(string $guitarTabs): self
     {
-        $this->content = $content;
+        $this->guitar_tabs = $guitarTabs;
 
         return $this;
     }

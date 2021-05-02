@@ -8,6 +8,11 @@
 			<a class="nav-link" href="{{ path('bands_all') }}">
 				Bands
 			</a>
+			{% if band is defined %}
+				<a class="nav-link" href="{{ path('bands_one', { band : band.id }) }}">
+					Songs
+				</a>
+			{% endif %}
 			<a class="nav-link" href="{{ path('app_account_edit') }}">
 				Account
 			</a>

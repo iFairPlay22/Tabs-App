@@ -24,10 +24,10 @@ class SongType extends AbstractType
                 'required' => true
             ])
             ->add('capo', TextType::class, [
-                'required' => true,
-                'data' => 'Aucun'
+                'required' => true
+                // 'data' => 'Aucun'
             ])
-            ->add('content', TextareaType::class, [
+            ->add('guitar_tabs', TextareaType::class, [
                 'required' => true,
                 'attr' => [
                     'rows' => 5

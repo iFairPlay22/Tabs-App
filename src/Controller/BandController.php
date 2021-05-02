@@ -106,7 +106,9 @@ class BandController extends AbstractController
         $objectManager->remove($band);
         $objectManager->flush();
 
-        return $this->redirectToRoute('bands_all');
+        return $this->redirectToRoute('bands_all', [
+            'band' => $band
+        ]);
     }
 
 

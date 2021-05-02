@@ -140,7 +140,7 @@ class MigrationController extends AbstractController
                         $song->setCapo($songList["capo"]);
                         $song->setSongName($songList["song_name"]);
                         $song->setGroupName($songList["group_name"]);
-                        $song->setContent($songList["content"]);
+                        $song->setGuitarTabs($songList["guitar_tabs"]);
 
                         $song->setBand(
                             $bands[$songList["band_id"]]

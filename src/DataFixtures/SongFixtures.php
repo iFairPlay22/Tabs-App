@@ -23,7 +23,7 @@ class SongFixtures extends AppFixtures implements DependentFixtureInterface, Fix
         $entity->setCapo(self::$faker->randomElement(["C", "D", "E"]));
         $entity->setSongName(self::$faker->realText(30));
         $entity->setGroupName(self::$faker->realText(30));
-        $entity->setContent(self::$faker->realText(1000));
+        $entity->setGuitarTabs(self::$faker->realText(1000));
         $entity->setLyrics(self::$faker->realText(1000));
 
         $band = $this->getCustumReference(
