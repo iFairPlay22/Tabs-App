@@ -1,16 +1,21 @@
 import $ from "jquery"
 
-$(document).on("click", ".removeMemberBtn", function(e) {
+$(() => {
 
-    e.preventDefault();
+    $(".removeMemberBtn").on("click", e => {
 
-    var _self = $(this);
+        e.preventDefault();
 
-    var userId = _self.data('id');
+        var _self = $(this);
 
-    var route = window.location.pathname.replace("/manage", `/remove/${userId}`)
+        var userId = _self.data('id');
 
-    $("#confirmRemoveBtn").attr("href", route)
+        var route = window.location.pathname.replace("/manage", `/remove/${userId}`);
 
-    // $(_self.attr('href')).modal('show');
+        $("#confirmRemoveBtn").attr("href", route);
+
+        // $(_self.attr('href')).modal('show');
+
+    });
+    
 });

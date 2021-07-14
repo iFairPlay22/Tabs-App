@@ -19,9 +19,9 @@ class BandRepository extends ServiceEntityRepository
         parent::__construct($registry, Band::class);
     }
 
-    // /**
-    //  * @return Song[] Returns an array of Song objects
-    //  */
+    /**
+     * @return Song[] Returns an array of Song objects
+     */
     public function findByName($member, $value /*, $index, $limit */)
     {
         $words = explode(' ', $value);
@@ -41,6 +41,30 @@ class BandRepository extends ServiceEntityRepository
             // ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @param Band $band
+     * @return Band[] Returns an array of Band objects
+     */
+    public function getTagsStatistics(Band $band)
+    {
+        $data = $this->createQueryBuilder('ba')
+            ->select('ta.label AS tag_label')
+            ->addSelect('COUNT(DISTINCT(so.id)) AS songs_nb')
+            ->leftJoin('ba.songs', 'so')
+            ->leftJoin('so.tag',  'ta')
+            ->andWhere('ba.id = :band')
+            ->setParameter('band', $band)
+            ->groupBy('ta.id')
+            ->getQuery()
+            ->getResult();
+
+        for ($i = 0; $i < count($data); $i++)
+            if ($data[$i]["tag_label"] == "")
+                $data[$i]["tag_label"] = "Aucun";
+
+        return $data;
     }
 
     // /**

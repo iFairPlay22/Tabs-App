@@ -12,14 +12,17 @@
 			<div class="mb-2 d-flex flex-sm-row flex-column justify-content-between align-items-sm-center align-items-start">
 				<div class="d-sm-block d-flex flex-column">
 					<a href="{{ path('bands_edit', { band : band.id }) }}" class="mr-2">
-						Rename the band
+						Rename
 					</a>
-					<a href="{{ path('members_manage', { band : band.id }) }}">
-						Manage members
+					<a href="{{ path('members_manage', { band : band.id }) }}" class="mr-2">
+						Members
+					</a>
+					<a href="{{ path('bands_stats', { band : band.id }) }}" class="mr-2">
+						Statistics
 					</a>
 				</div>
 				<a class="mr-2" href="{{ path('songs_create', { band : band.id }) }}">
-					Create a song
+					Add a song
 				</a>
 			</div>
 			<div>

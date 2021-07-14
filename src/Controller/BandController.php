@@ -6,6 +6,7 @@ use App\Entity\Band;
 use App\Entity\Song;
 use App\Form\BandType;
 use App\Form\FormUtils;
+use App\Repository\BandRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -148,6 +149,21 @@ class BandController extends AbstractController
                 'limit' => $limit,
                 'nbResults' => $nbTotalResults,
                 'max' => intval($nbTotalResults / $limit)
+            ]
+        ]);
+    }
+
+    /**
+     * @Route("/{band}/stats", name="stats", requirements={"band"="\d+"})
+     */
+    public function stats(Band $band, BandRepository $bandRepository)
+    {
+        $this->getUser()->requireMemberOf($band);
+
+        return $this->render('band/stats.html.twig', [
+            'band' => $band,
+            'stats' => [
+                'band_tags' => $bandRepository->getTagsStatistics($band)
             ]
         ]);
     }

@@ -20,9 +20,9 @@ class SongRepository extends ServiceEntityRepository
         parent::__construct($registry, Song::class);
     }
 
-    // /**
-    //  * @return Song[] Returns an array of Song objects
-    //  */
+    /**
+     * @return Song[] Returns an array of Song objects
+     */
     public function findByName($band, $value)
     {
         $words = explode(' ', $value);
