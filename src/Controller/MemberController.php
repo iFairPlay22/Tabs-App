@@ -83,7 +83,7 @@ class MemberController extends AbstractController
     }
 
     /**
-     * @Route("/remove/{member}", name="remove")
+     * @Route("/remove/{member}", name="remove", requirements={"member"="\d+"})
      */
     public function remove(Band $band, User $member)
     {

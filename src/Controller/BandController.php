@@ -68,7 +68,9 @@ class BandController extends AbstractController
         $form = $this->createForm(BandType::class, $band, ["submit_label" => "Create"]);
 
         if (FormUtils::updateDBIfValid($request, $form, $this->getDoctrine()->getManager()))
-            return $this->redirectToRoute('bands_all');
+            return $this->redirectToRoute('bands_one', [
+                'band' => $band->getId()
+            ]);
 
         return $this->render('band/create.html.twig', [
             'band' => $band,
@@ -113,7 +115,7 @@ class BandController extends AbstractController
 
 
     /**
-     * @Route("/{band}", name="one")
+     * @Route("/{band}", name="one", requirements={"band"="\d+"})
      */
     public function one(Request $request, Band $band)
     {

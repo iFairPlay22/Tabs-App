@@ -59,7 +59,10 @@ class SongController extends AbstractController
         $form = $this->createForm(SongType::class, $song, ["submit_label" => "Create"]);
 
         if (FormUtils::updateDBIfValid($request, $form, $this->getDoctrine()->getManager()))
-            return $this->redirectToRoute('bands_one', ['band' => $band->getId()]);
+            return $this->redirectToRoute('songs_one', [
+                'band' => $band->getId(),
+                'song' => $song->getId()
+            ]);
 
         return $this->render('song/create.html.twig', [
             'band' => $band,
@@ -80,9 +83,8 @@ class SongController extends AbstractController
 
         if (FormUtils::updateDBIfValid($request, $form, $this->getDoctrine()->getManager()))
             return $this->redirectToRoute('songs_one', [
-                'band' => $band,
+                'band' => $band->getId(),
                 'song' => $song->getId(),
-                'band' => $song->getBand()->getId()
             ]);
 
         return $this->render('song/edit.html.twig', [

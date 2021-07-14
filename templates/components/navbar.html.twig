@@ -8,7 +8,7 @@
 			<a class="nav-link" href="{{ path('bands_all') }}">
 				Bands
 			</a>
-			{% if band is defined %}
+			{% if band is defined and band.id%}
 				<a class="nav-link" href="{{ path('bands_one', { band : band.id }) }}">
 					Songs
 				</a>
