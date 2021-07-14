@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=TagRepository::class)
+ * @ORM\Table(name="`tag`")
  */
 class Tag
 {
@@ -50,7 +51,7 @@ class Tag
 
         return $this;
     }
-    
+
     public function getLabel(): ?string
     {
         return $this->label;

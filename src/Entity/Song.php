@@ -10,12 +10,18 @@ use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
+use App\Entity\Traits\TimeStampableTrait;
 
 /**
  * @ORM\Entity(repositoryClass=SongRepository::class)
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table(name="`song`")
  */
 class Song
 {
+
+    use TimeStampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -61,7 +67,6 @@ class Song
 
     public function __construct()
     {
-        
     }
 
     public function getId(): ?int

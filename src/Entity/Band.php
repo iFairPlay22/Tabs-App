@@ -9,13 +9,18 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
+use App\Entity\Traits\TimeStampableTrait;
 
 /**
  * @ORM\Entity(repositoryClass=BandRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="`band`")
  */
 class Band
 {
+
+    use TimeStampableTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
