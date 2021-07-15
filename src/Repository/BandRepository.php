@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Band;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 /**
  * @method Band|null find($id, $lockMode = null, $lockVersion = null)
@@ -45,11 +46,11 @@ class BandRepository extends ServiceEntityRepository
 
     /**
      * @param Band $band
-     * @return Band[] Returns an array of Band objects
+     * @return Band[] Returns an array
      */
     public function getTagsStatistics(Band $band)
     {
-        $data = $this->createQueryBuilder('ba')
+        $res = $this->createQueryBuilder('ba')
             ->select('ta.label AS tag_label')
             ->addSelect('COUNT(DISTINCT(so.id)) AS songs_nb')
             ->leftJoin('ba.songs', 'so')
@@ -60,11 +61,57 @@ class BandRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        for ($i = 0; $i < count($data); $i++)
-            if ($data[$i]["tag_label"] == "")
-                $data[$i]["tag_label"] = "Aucun";
+        for ($i = 0; $i < count($res); $i++)
+            if ($res[$i]["tag_label"] == "")
+                $res[$i]["tag_label"] = "Aucun";
 
-        return $data;
+        return $res;
+    }
+
+    /**
+     * @param Band $band
+     * @return Band[] Returns an array
+     */
+    public function getHistoryStatistics(Band $band)
+    {
+        $data = $this->createQueryBuilder('ba')
+            ->select('so.createdAt AS date')
+            ->addSelect('COUNT(DISTINCT(so.id)) AS nb_songs')
+            ->leftJoin('ba.songs', 'so')
+            ->andWhere('ba.id = :band')
+            ->setParameter('band', $band)
+            ->groupBy('so.createdAt')
+            ->orderBy('so.createdAt')
+            ->getQuery()
+            ->getResult();
+
+        $size = count($data);
+        if ($size == 0) return [];
+
+        $startYear = intval(date_format(date_create()->setTimestamp($data[0]['date']), 'Y'));
+        $endYear   = intval(date_format(date_create()->setTimestamp($data[$size - 1]['date']), 'Y'));
+
+        $res = [];
+
+        for ($y = $startYear; $y <= $endYear; $y++) {
+            for ($m = 1; $m <= 12; $m++) {
+                $res[] = [
+                    'date' => strtotime(($m < 10 ? "0" : "") . "$m/01/$y 00:00:01"),
+                    'nb_songs' => 0
+                ];
+            }
+        }
+
+        foreach ($data as $row) {
+            $nbSongs = $row['nb_songs'];
+            $date = date_create()->setTimestamp($row['date']);
+            $year = intval(date_format($date, 'Y'));
+            $month =  intval(date_format($date, 'm'));
+            $resIndex = ($year - $startYear) * 12 + $month - 1;
+            $res[$resIndex]['nb_songs'] += $nbSongs;
+        }
+
+        return $res;
     }
 
     // /**

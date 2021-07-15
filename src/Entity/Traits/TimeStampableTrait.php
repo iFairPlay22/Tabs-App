@@ -13,50 +13,50 @@ use Exception;
 trait TimeStampableTrait
 {
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $createdAt;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $updatedAt;
 
     /**
-     * @return DateTimeInterface|null
+     * @return int|null
      * @throws Exception
      */
     public function getCreatedAt(): ?DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->createdAt == NULL ? NULL : strtotime($this->createdAt);
     }
 
     /**
-     * @param DateTimeInterface $createdAt
+     * @param int $createdAt
      * @return $this
      */
     public function setCreatedAt(DateTimeInterface $createdAt): self
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = $createdAt->getTimestamp();
 
         return $this;
     }
 
     /**
-     * @return DateTimeInterface|null
+     * @return int|null
      */
     public function getUpdatedAt(): ?DateTimeInterface
     {
-        return $this->updatedAt;
+        return $this->updatedAt == NULL ? NULL : strtotime($this->updatedAt);
     }
 
     /**
-     * @param DateTimeInterface $updatedAt
+     * @param int $updatedAt
      * @return $this
      */
     public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = $updatedAt->getTimestamp();
 
         return $this;
     }
@@ -69,8 +69,7 @@ trait TimeStampableTrait
     {
         $now = new DateTime();
         $this->setUpdatedAt($now);
-        if ($this->getId() === null) {
+        if ($this->getId() === null)
             $this->setCreatedAt($now);
-        }
     }
 }

@@ -163,7 +163,14 @@ class BandController extends AbstractController
         return $this->render('band/stats.html.twig', [
             'band' => $band,
             'stats' => [
-                'band_tags' => $bandRepository->getTagsStatistics($band)
+                'band_tags' => [
+                    'title' => 'Tags',
+                    'data'  => $bandRepository->getTagsStatistics($band)
+                ],
+                'band_history' => [
+                    'title' => 'History',
+                    'data'  => $bandRepository->getHistoryStatistics($band)
+                ]
             ]
         ]);
     }

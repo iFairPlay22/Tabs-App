@@ -2,18 +2,22 @@
 
 {% block verticallyCenter %}
 
-    <meta name="bands_stats" content="{{ stats|json_encode }}"/>
-
 	<div class="card">
 		<div class="card-body rounded border border-primary">
 			<h1 class="card-title mb-5 d-flex align-items-center">
 				<ion-icon name="musical-notes-outline" class="d-sm-inline d-none mr-2"></ion-icon>
-				<span>My band statistics :
+				<span>Statistics :
 					{{ band.name }}</span>
 			</h1>
+
+			<meta name="band_stats" content="{{ stats|json_encode }}"/>
 			
-            <div id="stats_tags" class="am-chart-container"> </div>
-            <div id="stats_band_evolution" class="am-chart-container"> </div>
+			{% for id, stat in stats %}
+				<div>
+					<h2 class="text-muted mb-3">{{ stat.title }}</h2>
+					<div id="{{ id }}" class="am-chart-container"> </div>
+				</div>
+			{% endfor %}
 		</div>
 	</div>
 
