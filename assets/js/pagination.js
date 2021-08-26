@@ -2,20 +2,17 @@ import $ from "jquery"
 
 $(() => {
 
-    $(".pagination-container .pagination .page-item button").on("click", e => {
+    $(document).on("click", ".pagination-container .pagination .page-item button", function(e) {
 
         e.preventDefault();
-
+    
         var _self = $(this);
-
+    
         var row = _self.data('id');
-
-        $("#paginationRow").attr("value", row);
-
-        $("#pagination-form").trigger("submit");
-
+    
+        $("#paginationRow").attr("value", row)
+    
+        $("#pagination-form").trigger("submit")
     });
     
 });
-
-
