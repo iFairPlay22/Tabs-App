@@ -69,11 +69,13 @@
 				{% endif %}
 			</div>
 		</div>
-	{% endblock %}
+	</div>
 
-	{% block javascripts %}
+{% endblock %}
 
-		{{ parent() }}
-		{{ encore_entry_script_tags('js/pagination') }}
+{% block javascripts %}
 
-	{% endblock %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('js/pagination') }}
+
+{% endblock %}
