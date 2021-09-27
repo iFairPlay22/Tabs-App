@@ -14,20 +14,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiController extends AbstractController
 {
     /**
-     * @Route("/songs/{tag}", name="all")
+     * @Route("/songs/{tag}/{search}", name="songs")
      */
-    public function getSongsByTag($tag, TagRepository $tagRepository, SongRepository $songRepository)
+    public function getSongsByTag($tag, $search = NULL, TagRepository $tagRepository, SongRepository $songRepository)
     {
         $tag = $tagRepository->findOneBy([ "label" => "#".$tag ]);
 
         if (!$tag) {
-            return $this->json("No tags...");
+            return $this->json([]);
         }
 
-        $songs = $songRepository->findBy([ "tag" => $tag ]);
+        $songs = [];
+        if ($search) {
+            $songs = $songRepository->findByNameAndTag($search, $tag);
+        } else {
+            $songs = $songRepository->findBy( [ "tag" => $tag ] );
+        }
 
         if (!$songs) {
-            return $this->json("No songs...");
+            return $this->json([]);
         }
 
         return $this->json(

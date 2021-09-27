@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Song;
+use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
@@ -36,6 +37,28 @@ class SongRepository extends ServiceEntityRepository
             $val = 'val' . $i;
             $query->andWhere(
                 's.song_name LIKE :' . $val . ' OR s.group_name LIKE :' . $val . ' OR s.capo LIKE :' . $val . ' OR t.label LIKE :' . $val
+            )->setParameter($val, '%' . $words[$i] . '%');
+        }
+
+        return $query->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Song[] Returns an array of Song objects
+     */
+    public function findByNameAndTag($value, Tag $tag)
+    {
+        $words = explode(' ', $value);
+
+        $query = $this->createQueryBuilder('s')
+            ->andWhere('s.tag = :tag')
+            ->setParameter('tag', $tag);
+
+        for ($i = 0; $i < count($words); $i++) {
+            $val = 'val' . $i;
+            $query->andWhere(
+                's.song_name LIKE :' . $val . ' OR s.group_name LIKE :' . $val
             )->setParameter($val, '%' . $words[$i] . '%');
         }
 
