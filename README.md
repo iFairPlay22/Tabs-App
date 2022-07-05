@@ -6,4 +6,4 @@ Création d'un site web permettant de stocker les tablatures des musiciens ainsi
 
 ## Projet
 
-Création d'un site en VueJs et d'une API en Symfony.
+Création d'un site via Symfony.
